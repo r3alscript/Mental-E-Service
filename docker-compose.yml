@@ -49,7 +49,6 @@ services:
       <<: *environment-defaults
     volumes:
       - static_volume:/app/static
-      - .:/app
     restart: on-failure:5
 
   nginx:

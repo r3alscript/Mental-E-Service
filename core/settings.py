@@ -59,10 +59,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'main',
-<<<<<<< HEAD
-=======
     'authorization',
->>>>>>> 261497f (Added simple authorization and validation)
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -118,15 +115,12 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
-<<<<<<< HEAD
-=======
 AUTH_USER_MODEL = 'authorization.User'
 
 LOGIN_URL = '/auth/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/auth/login/'
 
->>>>>>> 261497f (Added simple authorization and validation)
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
