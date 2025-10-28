@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Вхід як гість</title>
+</head>
+<body>
+    <h1>Ви увійшли як гість</h1>
+    <p>Ваш акаунт створено автоматично з анонімними даними.</p>
+
+    <p><strong>Ваш ID:</strong> {{ request.user.username }}</p>
+
+    <p>Ви можете переглядати контент як клієнт або згодом додати свої дані.</p>
+
+    <a href="/">Перейти на головну</a>
+</body>
+</html>

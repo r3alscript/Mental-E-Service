@@ -1,7 +1,8 @@
-.idea
-*__pycache__
-db.sqlite3
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+**/.idea/
+**/.vscode/
 /static
+venv/
 node_modules
-
-

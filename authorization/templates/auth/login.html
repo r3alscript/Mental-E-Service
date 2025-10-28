@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Вхід до системи</title>
+</head>
+<body>
+    <h1>Вхід</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <p>
+            <label>Електронна пошта або логін:</label><br>
+            <input type="text" name="username" required>
+        </p>
+        <p>
+            <label>Пароль:</label><br>
+            <input type="password" name="password" required>
+        </p>
+        <button type="submit">Увійти</button>
+    </form>
+
+    {% if messages %}
+        <ul style="color:red;">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <p>Немає акаунта? <a href="{% url 'select_role' %}">Зареєструватися</a></p>
+</body>
+</html>
