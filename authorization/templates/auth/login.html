@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -29,5 +30,6 @@
     {% endif %}
 
     <p>Немає акаунта? <a href="{% url 'select_role' %}">Зареєструватися</a></p>
+    <script src="{% static 'auth/login_script.js' %}"></script>
 </body>
 </html>

@@ -18,7 +18,7 @@ class User(AbstractUser):
     patronymic = models.CharField(max_length=100, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     document_type = models.CharField(max_length=50, blank=True)
-    document_number = models.CharField(max_length=15, default="000000")
+    document_number = models.CharField(max_length=15, blank=True)
     tz = models.CharField(max_length=50, blank=True)
 
     USERNAME_FIELD = 'email'

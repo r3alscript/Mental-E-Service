@@ -1,16 +1,47 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <title>Вибір ролі</title>
-</head>
-<body>
-    <h2>Ви хочете зайти як...</h2>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Вибір ролі — E-Psycholog</title>
+    <link rel="stylesheet" href="{% static 'auth/css/select_role.css' %}" />
+  </head>
+  <body>
+    <div class="background">
+      <header class="header">
+        <div class="logo">
+          <img
+            src="{% static 'auth/media/logo.png' %}"
+            alt="E-Psycholog Logo"
+          />
+          <span class="logo-text">E-Psycholog</span>
+        </div>
+      </header>
 
-    <ul>
-        <li><a href="{% url 'register_client' %}">Клієнт</a></li>
-        <li><a href="{% url 'register_psychologist_personal' %}">Психолог</a></li>
-        <li><a href="{% url 'guest_login' %}">Гість (анонімний вхід)</a></li>
-    </ul>
-</body>
+      <main class="role-selection">
+        <div class="card">
+          <h1>Ви хочете зайти як...</h1>
+          <div class="roles">
+            <a href="{% url 'register_client' %}" class="role">
+              <div class="avatar">
+                <img src="{% static 'auth/media/client.png' %}" alt="Клієнт" />
+              </div>
+              <p>Клієнт</p>
+            </a>
+            <a href="{% url 'register_psychologist_personal' %}" class="role">
+              <div class="avatar">
+                <img
+                  src="{% static 'auth/media/psychologist.png' %}"
+                  alt="Психолог"
+                />
+              </div>
+              <p>Психолог</p>
+            </a>
+          </div>
+          <a href="{% url 'guest_login' %}" class="guest-link">Я гість</a>
+        </div>
+      </main>
+    </div>
+  </body>
 </html>

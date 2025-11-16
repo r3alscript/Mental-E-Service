@@ -1,24 +1,324 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="uk">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Реєстрація психолога — особисті дані</title>
-</head>
-<body>
-    <h1>Реєстрація психолога — особисті дані</h1>
 
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Далі →</button>
-    </form>
+    <!-- ✅ ИСПРАВЛЕНО: используем существующие стили -->
+    <link rel="stylesheet" href="{% static 'auth/css/select_role.css' %}" />
 
-    {% if messages %}
-        <ul style="color:red;">
-        {% for message in messages %}
-            <li>{{ message }}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
-</body>
+    <!-- Дополнительные стили для формы -->
+    <style>
+      .form-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px;
+      }
+
+      .form-group {
+        margin-bottom: 0; /* Убираем отступ снизу, так как ряды сами управляют отступами */
+      }
+
+      .row-3,
+      .row-2 {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+        align-items: flex-start; /* Выравнивание по верху */
+      }
+
+      .row-3 .form-group,
+      .row-2 .form-group {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Стили для полей ввода */
+      .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #d1d1d1;
+        border-radius: 8px;
+        font-size: 16px;
+        background: white;
+        height: 48px; /* Фиксированная высота для выравнивания */
+        box-sizing: border-box;
+      }
+
+      /* Особые стили для select */
+      .form-control:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+      }
+
+      /* Плейсхолдеры */
+      .form-control::placeholder {
+        color: #6c757d;
+        opacity: 1;
+      }
+
+      /* Для поля даты */
+      input[type="date"] {
+        color: #6c757d;
+      }
+
+      input[type="date"]:valid {
+        color: #333;
+      }
+
+      /* Для select элементов */
+      select.form-control {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 12px;
+        padding-right: 40px;
+      }
+
+      .section-title {
+        font-weight: 600;
+        margin: 30px 0 15px 0;
+        color: #333;
+        text-align: left; /* Выравнивание заголовка слева */
+      }
+
+      .checkbox {
+        margin: 30px 0;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .checkbox input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+      }
+
+      .error {
+        color: #dc3545;
+        font-size: 14px;
+        margin-top: 5px;
+        min-height: 20px; /* Фиксированная высота для сохранения выравнивания */
+      }
+
+      .messages {
+        margin-bottom: 20px;
+      }
+
+      .alert {
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+      }
+
+      .alert-success {
+        background: #d4edda;
+        color: #155724;
+      }
+
+      .alert-error {
+        background: #f8d7da;
+        color: #721c24;
+      }
+
+      .navigation-arrows {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 40px;
+      }
+
+      .arrow-btn {
+        background: none;
+        border: 2px solid #007bff;
+        color: #007bff;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        font-size: 24px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+      }
+
+      .arrow-btn:hover {
+        background: #007bff;
+        color: white;
+      }
+
+      .arrow-left {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+
+      /* Гарантия что все поля одинаковой высоты */
+      input.form-control,
+      select.form-control {
+        min-height: 48px;
+      }
+
+      /* Для паролей - убираем предзаполнение точками */
+      input[type="password"]:not(:focus) {
+        background-color: white;
+      }
+
+      /* Убираем предзаполнение для паролей */
+      input[type="password"]:not(:focus) {
+        background-color: white;
+        -webkit-text-security: none; /* Убирает точки в неактивном состоянии */
+      }
+
+      /* Для поля даты в неактивном состоянии */
+      input[type="text"][placeholder="Дата народження"] {
+        color: #6c757d;
+      }
+
+      /* Когда поле даты активно */
+      input[type="date"] {
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background">
+      <header class="header">
+        <div class="logo">
+          <img
+            src="{% static 'auth/media/logo.png' %}"
+            alt="E-Psycholog Logo"
+          />
+          <span class="logo-text">E-Psycholog</span>
+        </div>
+      </header>
+
+      <main class="role-selection">
+        <div class="card form-container">
+          <h1>Особисті дані</h1>
+
+          <!-- ✅ ДОБАВЛЕНО: отображение сообщений -->
+          {% if messages %}
+          <div class="messages">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          <form method="post" novalidate>
+            {% csrf_token %}
+
+            <!-- ===== ПЕРВЫЕ 3 ПОЛЯ (1 РЯД × 3 КОЛОНКИ) ===== -->
+            <div class="row-3">
+              <div class="form-group">
+                {{ form.last_name }} {% if form.last_name.errors %}
+                <div class="error">{{ form.last_name.errors.0 }}</div>
+                {% endif %}
+              </div>
+
+              <div class="form-group">
+                {{ form.first_name }} {% if form.first_name.errors %}
+                <div class="error">{{ form.first_name.errors.0 }}</div>
+                {% endif %}
+              </div>
+
+              <div class="form-group">
+                {{ form.patronymic }} {% if form.patronymic.errors %}
+                <div class="error">{{ form.patronymic.errors.0 }}</div>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- ===== ВТОРЫЕ 3 ПОЛЯ (2 РЯД × 3 КОЛОНКИ) ===== -->
+            <div class="row-3">
+              <div class="form-group">
+                {{ form.birth_date }} {% if form.birth_date.errors %}
+                <div class="error">{{ form.birth_date.errors.0 }}</div>
+                {% endif %}
+              </div>
+
+              <div class="form-group">
+                {{ form.phone }} {% if form.phone.errors %}
+                <div class="error">{{ form.phone.errors.0 }}</div>
+                {% endif %}
+              </div>
+
+              <div class="form-group">
+                {{ form.email }} {% if form.email.errors %}
+                <div class="error">{{ form.email.errors.0 }}</div>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- ===== ЗАГОЛОВОК ПЕРЕД ДОКУМЕНТОМ ===== -->
+            <div class="section-title">
+              Оберіть документ, що підтвердить особу
+            </div>
+
+            <!-- ===== СТРОКА: ТИП ДОКУМЕНТА + ПАРОЛЬ + ЧАСОВИЙ ПОЯС ===== -->
+            <div class="row-3">
+              <div class="form-group">
+                {{ form.document_type }} {% if form.document_type.errors %}
+                <div class="error">{{ form.document_type.errors.0 }}</div>
+                {% endif %}
+              </div>
+
+              <div class="form-group">
+                {{ form.password }} {% if form.password.errors %}
+                <div class="error">{{ form.password.errors.0 }}</div>
+                {% endif %}
+              </div>
+
+              <div class="form-group">
+                {{ form.tz }} {% if form.tz.errors %}
+                <div class="error">{{ form.tz.errors.0 }}</div>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- ===== НОМЕР ДОКУМЕНТА + ПОВТОРИТИ ПАРОЛЬ ===== -->
+            <div class="row-2">
+              <div class="form-group">
+                {{ form.document_number }} {% if form.document_number.errors %}
+                <div class="error">{{ form.document_number.errors.0 }}</div>
+                {% endif %}
+              </div>
+
+              <div class="form-group">
+                {{ form.password2 }} {% if form.password2.errors %}
+                <div class="error">{{ form.password2.errors.0 }}</div>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- ===== ЧЕКБОКС ===== -->
+            <div class="checkbox">
+              {{ form.confirm_data }}
+              <label for="{{ form.confirm_data.id_for_label }}"
+                >{{ form.confirm_data.label }}</label
+              >
+              {% if form.confirm_data.errors %}
+              <div class="error">{{ form.confirm_data.errors.0 }}</div>
+              {% endif %}
+            </div>
+
+            <!-- ===== ОШИБКИ ФОРМЫ ===== -->
+            {% if form.non_field_errors %}
+            <div class="error">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <!-- ===== СТРЕЛКИ НАВИГАЦИИ ===== -->
+            <div class="navigation-arrows">
+              <button type="button" class="arrow-btn arrow-left">←</button>
+              <button type="submit" class="arrow-btn arrow-right">→</button>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+  </body>
 </html>

@@ -1,4 +1,10 @@
 body {
+  background-color: #f8fff8; /* или тот цвет, что на макете */
+  background-image: url("../media/abstract-line.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
   margin: 0;
   font-family: "Inter", system-ui, sans-serif;
   background-color: #f8fff5;

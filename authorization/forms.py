@@ -4,58 +4,107 @@ from .models import User, Psychologist
 
 
 class PsychologistPersonalForm(forms.ModelForm):
+    confirm_data = forms.BooleanField(
+        label='Я підтверджую заяву "Дані достовірні"',
+        required=True
+    )
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={"class": "form-control"}),
+        widget=forms.PasswordInput(attrs={
+            "class": "form-control",
+            "placeholder": "Пароль"
+        }),
         label="Пароль"
     )
     password2 = forms.CharField(
-        widget=forms.PasswordInput(attrs={"class": "form-control"}),
+        widget=forms.PasswordInput(attrs={
+            "class": "form-control", 
+            "placeholder": "Повторити пароль"  # ИСПРАВЛЕН плейсхолдер
+        }),
         label="Підтвердження пароля"
     )
+    tz = forms.ChoiceField(
+        choices=[
+            ('', 'Оберіть часовий пояс'),
+            ('Europe/Kyiv', 'Київ (UTC+2)'),
+            ('Europe/London', 'Лондон (UTC+0)'),
+            ('Europe/Berlin', 'Берлін (UTC+1)'),
+        ],
+        label="Часовий пояс",
+        widget=forms.Select(attrs={"class": "form-control"})
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        # УБИРАЕМ значения по умолчанию
+        self.fields['document_number'].initial = ''  # Убирает "000000"
+        self.fields['email'].initial = ''  # Убирает предзаполнение email
+        self.fields['password'].initial = ''  # Убирает предзаполнение пароля
+        self.fields['password2'].initial = ''  # Убирает предзаполнение подтверждения пароля
+        
+        # Обновляем атрибуты для всех полей
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'input'})
 
     class Meta:
         model = User
         fields = [
-            "last_name",
-            "first_name",
-            "patronymic",
-            "birth_date",
-            "phone",
-            "email",
-            "document_type",
-            "document_number",
-            "password",
-            "password2",
+            "last_name", "first_name", "patronymic", "birth_date", 
+            "phone", "email", "document_type", "document_number",
+            "tz", "password", "password2", 
         ]
         labels = {
             "last_name": "Прізвище",
-            "first_name": "Ім’я",
+            "first_name": "Ім’я", 
             "patronymic": "По батькові",
-            "birth_date": "Дата народження",
+            "birth_date": "Дата народження", 
             "phone": "Номер телефону",
             "email": "Електронна пошта",
             "document_type": "Тип документа",
             "document_number": "Номер документа",
         }
         widgets = {
-            "last_name": forms.TextInput(attrs={"class": "form-control"}),
-            "first_name": forms.TextInput(attrs={"class": "form-control"}),
-            "patronymic": forms.TextInput(attrs={"class": "form-control"}),
-            "birth_date": forms.DateInput(attrs={
-                "type": "date",
-                "class": "form-control"
+            "last_name": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Прізвище"
             }),
-            "phone": forms.TextInput(attrs={"class": "form-control", "placeholder": "+380..."}),
-            "email": forms.EmailInput(attrs={"class": "form-control"}),
+            "first_name": forms.TextInput(attrs={
+                "class": "form-control", 
+                "placeholder": "Ім'я"
+            }),
+            "patronymic": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "По батькові" 
+            }),
+            "birth_date": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Дата народження",
+                "onfocus": "(this.type='date')",
+                "onblur": "(this.type='text')"
+            }),
+            "phone": forms.TextInput(attrs={
+                "class": "form-control", 
+                "placeholder": "+380 Номер телефону"
+            }),
+            "email": forms.EmailInput(attrs={
+                "class": "form-control",
+                "placeholder": "Електронна пошта"
+            }),
             "document_type": forms.Select(
                 choices=[
+                    ("", "Оберіть тип документа"),
                     ("passport", "Паспорт"),
                     ("id_card", "ID-карта"),
                 ],
                 attrs={"class": "form-control"}
             ),
-            "document_number": forms.TextInput(attrs={"class": "form-control"}),
+            "document_number": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Номер документа"
+            }),
+            # password и password2 УБРАНЫ отсюда - они уже определены выше
         }
+
 
     def clean_last_name(self):
         value = self.cleaned_data.get("last_name", "")
@@ -119,8 +168,19 @@ class PsychologistPersonalForm(forms.ModelForm):
         password2 = cleaned_data.get("password2")
         if password != password2:
             raise forms.ValidationError("Паролі не співпадають.")
+        # ДОБАВЛЯЕМ проверку подтверждения данных (исправляем комментарий)
+        if not cleaned_data.get("confirm_data"):
+            raise forms.ValidationError("Підтвердьте, що дані достовірні.")
         return cleaned_data
 
+    # ДОБАВЛЯЕМ метод save для правильного сохранения пароля
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data['password'])  # Хэшируем пароль
+        user.role = 'psychologist'  # Устанавливаем роль
+        if commit:
+            user.save()
+        return user
 
 class PsychologistWorkForm(forms.ModelForm):
     class Meta:

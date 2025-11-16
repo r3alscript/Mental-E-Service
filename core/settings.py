@@ -147,23 +147,21 @@ USE_I18N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# В core/settings.py ЗАМЕНИТЕ весь раздел Static files на:
 
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 
+# Для разработки
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'authorization/static'),
 ]
 
-if not DEBUG:
-    STATIC_ROOT = BASE_DIR / 'staticfiles'
-    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
-
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
-
+# Для продакшена/Docker
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# УДАЛИТЕ эту строку (она вызывает проблему):
+# STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
