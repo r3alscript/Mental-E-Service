@@ -49,5 +49,12 @@ class Psychologist(models.Model):
     policy = models.TextField(blank=True)
     format = models.CharField(max_length=50, blank=True)
 
+     # ⚠️ ДОБАВЛЯЕМ новые поля для экрана психологов
+    experience = models.IntegerField(default=0, verbose_name="Стаж (років)")  # стаж в годах
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name="Ціна")
+    rating = models.DecimalField(max_digits=3, decimal_places=1, default=0, verbose_name="Рейтинг")
+    languages = models.CharField(max_length=100, blank=True, verbose_name="Мови")
+    response_time = models.CharField(max_length=20, blank=True, verbose_name="Час відповіді")
+    
     def __str__(self):
         return f"Психолог: {self.user.email}"

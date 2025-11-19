@@ -1,0 +1,287 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}E-Psycholog{% endblock %}</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+
+      body {
+        background: #ffffff;
+        min-height: 100vh;
+      }
+
+      /* Хедер */
+      .header {
+        background: white;
+        border-bottom: 1px solid #e0e0e0;
+        padding: 20px 0;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .header-content {
+        max-width: 100%;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 40px;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .logo img {
+        height: 40px;
+      }
+
+      .logo-text {
+        font-size: 28px;
+        font-weight: 700;
+        color: #333;
+      }
+
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+      }
+
+      .search-container {
+        position: relative;
+      }
+
+      .search-input {
+        padding: 12px 45px 12px 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 25px;
+        width: 250px;
+        font-size: 16px;
+        background: #f8f9fa;
+      }
+
+      .search-icon {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #666;
+        font-size: 16px;
+      }
+
+      .header-icons {
+        display: flex;
+        gap: 20px;
+      }
+
+      .icon-btn {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: #f5f5f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: none;
+        font-size: 18px;
+      }
+
+      /* Основной контейнер */
+      .main-container {
+        display: flex;
+        width: 100%;
+        min-height: calc(100vh - 85px);
+      }
+
+      /* Левая навигация */
+      .sidebar {
+        width: 300px;
+        background: white;
+        border-right: 1px solid #e0e0e0;
+        padding: 40px 0;
+      }
+
+      .nav-menu {
+        list-style: none;
+      }
+
+      .nav-item {
+        margin-bottom: 12px;
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 16px 30px;
+        text-decoration: none;
+        color: #666;
+        transition: all 0.3s;
+        border-left: 4px solid transparent;
+        font-size: 18px;
+        font-weight: 500;
+      }
+
+      .nav-link:hover {
+        background: #f8f9fa;
+        color: #333;
+      }
+
+      .nav-link.active {
+        color: #28a745;
+        border-left-color: #28a745;
+        background: #f8fff9;
+        font-weight: 600;
+      }
+
+      .nav-link.has-submenu {
+        position: relative;
+      }
+
+      .nav-link.has-submenu::after {
+        content: "▼";
+        margin-left: auto;
+        font-size: 12px;
+        opacity: 0.6;
+        transition: transform 0.3s ease;
+      }
+
+      .nav-link.has-submenu.active-submenu::after {
+        transform: rotate(180deg);
+      }
+
+      .submenu {
+        list-style: none;
+        padding-left: 50px;
+        margin-top: 10px;
+        display: none; /* Скрываем по умолчанию */
+      }
+
+      .nav-link.has-submenu.active-submenu + .submenu {
+        display: block; /* Показываем когда активно */
+      }
+
+      .submenu .nav-link {
+        padding: 12px 20px;
+        font-size: 16px;
+        border-left: 2px solid transparent;
+      }
+
+      .submenu {
+        list-style: none;
+        padding-left: 50px;
+        margin-top: 10px;
+      }
+
+      .submenu .nav-link {
+        padding: 12px 20px;
+        font-size: 16px;
+        border-left: 2px solid transparent;
+      }
+
+      /* Основной контент */
+      .main-content {
+        flex: 1;
+        background: #ffffff;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Хедер -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <img src="{% static 'auth/media/logo.png' %}" alt="E-Psycholog" />
+          <span class="logo-text">E-Psycholog</span>
+        </div>
+
+        <div class="header-right">
+          <div class="search-container">
+            <input type="text" class="search-input" placeholder="Пошук" />
+            <span class="search-icon">🔍</span>
+          </div>
+          <div class="header-icons">
+            <button class="icon-btn">👤</button>
+            <button class="icon-btn">🚪</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Основной контент -->
+    <div class="main-container">
+      <!-- Левая навигация -->
+      <nav class="sidebar">
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="#" class="nav-link">Мій профіль</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link has-submenu">Мої записи</a>
+            <ul class="submenu">
+              <li class="nav-item">
+                <a href="#" class="nav-link">Історія записів</a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">Бронювання</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">Чати</a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'psychologists_list' %}" class="nav-link active"
+              >Психологи</a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">Гарячі лінії</a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'calendar_page' %}" class="nav-link">Календар</a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Правый контент -->
+      <main class="main-content">{% block content %} {% endblock %}</main>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const menuItem = document.querySelector(".nav-link.has-submenu");
+        const submenu = document.querySelector(".submenu");
+
+        if (menuItem && submenu) {
+          menuItem.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            // Переключаем класс active для основного пункта меню
+            this.classList.toggle("active-submenu");
+
+            // Переключаем видимость подменю
+            if (submenu.style.display === "block") {
+              submenu.style.display = "none";
+            } else {
+              submenu.style.display = "block";
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
