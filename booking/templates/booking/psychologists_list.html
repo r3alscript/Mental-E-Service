@@ -1,5 +1,5 @@
-{% extends "base.html" %} {% block title %}Психологи - E-Psycholog{% endblock %}
-{% block content %}
+{% extends "base.html" %} {% load static %}{% block title %}Психологи -
+E-Psycholog{% endblock %} {% block content %}
 <div class="psychologists-page">
   <!-- Заголовок и сортировка -->
   <div class="page-controls">
@@ -14,37 +14,35 @@
     </div>
   </div>
 
-  <!-- Сетка психологов -->
+  <!-- Сетка психологов - ХАРДКОД -->
   <div class="psychologists-grid">
-    {% for psychologist in psychologists %}
+    <!-- Психолог 1 -->
     <div class="psychologist-card">
       <div class="psychologist-main">
         <div class="psychologist-photo">
-          <div class="photo-placeholder">👤</div>
+          <img
+            src="{% static 'booking/img/psychologists/oleg_sidorenko.jpg' %}"
+            alt="Олег Сидоренко"
+            class="psychologist-avatar"
+          />
         </div>
 
         <div class="psychologist-details">
           <!-- Первый ряд: Имя и рейтинг -->
           <div class="info-row first-row">
             <div class="name-section">
-              <h3 class="psychologist-name">
-                {{ psychologist.user.get_full_name }}
-              </h3>
+              <h3 class="psychologist-name">Олег Сидоренко</h3>
             </div>
             <div class="rating-section">
               <span class="rating-emoji">😊</span>
-              <span class="rating-value"
-                >{{ psychologist.rating|default:"4.9" }}/5.0</span
-              >
+              <span class="rating-value">4.9/5.0</span>
             </div>
           </div>
 
           <!-- Второй ряд: Стаж и отмена -->
           <div class="info-row second-row">
             <div class="experience-section">
-              <span class="experience"
-                >{{ psychologist.experience|default:"5" }} років стажу</span
-              >
+              <span class="experience">15 років стажу</span>
             </div>
             <div class="cancellation-section">
               <span class="cancellation-badge">Скасування за 24 години</span>
@@ -55,24 +53,156 @@
           <div class="info-row third-row">
             <div class="price-section">
               <span class="price-emoji">🪙</span>
-              <span class="price"
-                >{{ psychologist.price|default:"2000" }} ₴</span
-              >
+              <span class="price">2000 ₴</span>
             </div>
             <div class="languages-section">
-              <span class="languages"
-                >{{ psychologist.languages|default:"Українська" }}</span
-              >
+              <span class="languages">Українська, Англійська</span>
             </div>
           </div>
         </div>
       </div>
     </div>
-    {% empty %}
-    <div class="empty-state">
-      <p>Психологи не знайдені</p>
+
+    <!-- Психолог 2 -->
+    <div class="psychologist-card">
+      <div class="psychologist-main">
+        <div class="psychologist-photo">
+          <img
+            src="{% static 'booking/img/psychologists/andrii_sirko.jpg' %}"
+            alt="Андрій Сірко"
+            class="psychologist-avatar"
+          />
+        </div>
+
+        <div class="psychologist-details">
+          <!-- Первый ряд: Имя и рейтинг -->
+          <div class="info-row first-row">
+            <div class="name-section">
+              <h3 class="psychologist-name">Андрій Сірко</h3>
+            </div>
+            <div class="rating-section">
+              <span class="rating-emoji">😊</span>
+              <span class="rating-value">4.5/5.0</span>
+            </div>
+          </div>
+
+          <!-- Второй ряд: Стаж и отмена -->
+          <div class="info-row second-row">
+            <div class="experience-section">
+              <span class="experience">10 років стажу</span>
+            </div>
+            <div class="cancellation-section">
+              <span class="cancellation-badge">Скасування за 24 години</span>
+            </div>
+          </div>
+
+          <!-- Третий ряд: Цена и языки -->
+          <div class="info-row third-row">
+            <div class="price-section">
+              <span class="price-emoji">🪙</span>
+              <span class="price">2000 ₴</span>
+            </div>
+            <div class="languages-section">
+              <span class="languages">Українська, Англійська</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    {% endfor %}
+
+    <!-- Психолог 3 -->
+    <div class="psychologist-card">
+      <div class="psychologist-main">
+        <div class="psychologist-photo">
+          <img
+            src="{% static 'booking/img/psychologists/inna_mitskevich.jpg' %}"
+            alt="Інна Міцкевич"
+            class="psychologist-avatar"
+          />
+        </div>
+
+        <div class="psychologist-details">
+          <!-- Первый ряд: Имя и рейтинг -->
+          <div class="info-row first-row">
+            <div class="name-section">
+              <h3 class="psychologist-name">Інна Міцкевич</h3>
+            </div>
+            <div class="rating-section">
+              <span class="rating-emoji">😊</span>
+              <span class="rating-value">4.0/5.0</span>
+            </div>
+          </div>
+
+          <!-- Второй ряд: Стаж и отмена -->
+          <div class="info-row second-row">
+            <div class="experience-section">
+              <span class="experience">5 років стажу</span>
+            </div>
+            <div class="cancellation-section">
+              <span class="cancellation-badge">Скасування за 24 години</span>
+            </div>
+          </div>
+
+          <!-- Третий ряд: Цена и языки -->
+          <div class="info-row third-row">
+            <div class="price-section">
+              <span class="price-emoji">🪙</span>
+              <span class="price">1900 ₴</span>
+            </div>
+            <div class="languages-section">
+              <span class="languages">Українська, Англійська</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Психолог 4 -->
+    <div class="psychologist-card">
+      <div class="psychologist-main">
+        <div class="psychologist-photo">
+          <img
+            src="{% static 'booking/img/psychologists/pavlo_sidorenko.jpg' %}"
+            alt="Павло Сидоренко"
+            class="psychologist-avatar"
+          />
+        </div>
+
+        <div class="psychologist-details">
+          <!-- Первый ряд: Имя и рейтинг -->
+          <div class="info-row first-row">
+            <div class="name-section">
+              <h3 class="psychologist-name">Павло Сидоренко</h3>
+            </div>
+            <div class="rating-section">
+              <span class="rating-emoji">😊</span>
+              <span class="rating-value">4.7/5.0</span>
+            </div>
+          </div>
+
+          <!-- Второй ряд: Стаж и отмена -->
+          <div class="info-row second-row">
+            <div class="experience-section">
+              <span class="experience">1 рік стажу</span>
+            </div>
+            <div class="cancellation-section">
+              <span class="cancellation-badge">Скасування за 24 години</span>
+            </div>
+          </div>
+
+          <!-- Третий ряд: Цена и языки -->
+          <div class="info-row third-row">
+            <div class="price-section">
+              <span class="price-emoji">🪙</span>
+              <span class="price">1600 ₴</span>
+            </div>
+            <div class="languages-section">
+              <span class="languages">Українська</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -142,16 +272,16 @@
     flex-shrink: 0;
   }
 
-  .photo-placeholder {
-    width: 100px;
-    height: 100px;
+  .psychologist-photo {
+    flex-shrink: 0;
+  }
+
+  .psychologist-avatar {
+    width: 130px;
+    height: 130px;
     border-radius: 50%;
-    background: #f0f0f0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 40px;
-    color: #666;
+    object-fit: cover;
+    border: 3px solid #e0e0e0;
   }
 
   .psychologist-details {
@@ -261,14 +391,6 @@
     font-size: 14px;
     color: #666;
     font-weight: 500;
-  }
-
-  .empty-state {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 80px 20px;
-    color: #666;
-    font-size: 18px;
   }
 
   @media (max-width: 1200px) {

@@ -17,5 +17,5 @@ class ClientAdmin(admin.ModelAdmin):
 
 @admin.register(Psychologist)
 class PsychologistAdmin(admin.ModelAdmin):
-    list_display = ("user", "specialization", "language", "tz")
-    search_fields = ("user__email", "specialization", "language")
+    list_display = ("user", "specialization", "languages")
+    search_fields = ("user__email", "specialization", "languages")

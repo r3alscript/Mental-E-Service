@@ -185,28 +185,16 @@ class PsychologistPersonalForm(forms.ModelForm):
 class PsychologistWorkForm(forms.ModelForm):
     class Meta:
         model = Psychologist
-        fields = ["specialization", "language", "tz", "policy", "about", "format"]
+        fields = ["specialization", "languages", "about"]
         labels = {
             "specialization": "Спеціалізація",
-            "language": "Мова спілкування",
-            "tz": "Часовий пояс",
-            "policy": "Політика скасування",
+            "languages": "Мови",
             "about": "Про себе",
-            "format": "Формат проведення консультацій",
         }
         widgets = {
             "specialization": forms.TextInput(attrs={"class": "form-control"}),
-            "language": forms.TextInput(attrs={"class": "form-control"}),
-            "tz": forms.TextInput(attrs={"class": "form-control"}),
-            "policy": forms.Textarea(attrs={"class": "form-control", "rows": 3}),
+            "languages": forms.TextInput(attrs={"class": "form-control"}),
             "about": forms.Textarea(attrs={"class": "form-control", "rows": 3}),
-            "format": forms.Select(
-                choices=[
-                    ("online", "Онлайн"),
-                    ("offline", "Офлайн"),
-                ],
-                attrs={"class": "form-control"}
-            ),
         }
 
     def clean_specialization(self):
@@ -217,12 +205,10 @@ class PsychologistWorkForm(forms.ModelForm):
             raise forms.ValidationError("Спеціалізація не повинна містити цифри.")
         return value.strip()
 
-    def clean_language(self):
-        value = self.cleaned_data.get("language", "")
+    def clean_languages(self):
+        value = self.cleaned_data.get("languages", "")
         if len(value) < 2:
             raise forms.ValidationError("Мова повинна містити принаймні 2 символи.")
-        if any(ch.isdigit() for ch in value):
-            raise forms.ValidationError("Мова не повинна містити цифри.")
         return value.strip()
 
     def clean_about(self):
