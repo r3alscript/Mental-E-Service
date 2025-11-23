@@ -1,0 +1,466 @@
+{% extends "base.html" %} {% load static %} {% block title %}Бронювання -
+E-Psycholog{% endblock %} {% block content %}
+<div class="booking-page">
+  <!-- Заголовок как в psychologists_list.html -->
+  <div class="page-controls">
+    <h1 class="content-title">Бронювання</h1>
+  </div>
+
+  <!-- Слайдер дат - БОЛЬШЕ ЭЛЕМЕНТОВ, НО ПРЕЖНИЙ РАЗМЕР -->
+  <div class="date-slider-container">
+    <div class="date-slider">
+      <button class="slider-arrow left-arrow">‹</button>
+
+      <div class="dates-wrapper">
+        <!-- Добавил больше дат для заполнения слайдера -->
+        <div class="date-item" data-date="2024-10-25">
+          <div class="day-week">П'ятниця</div>
+          <div class="day-month">25 жовтня</div>
+        </div>
+        <div class="date-item" data-date="2024-10-26">
+          <div class="day-week">Субота</div>
+          <div class="day-month">26 жовтня</div>
+        </div>
+        <div class="date-item active" data-date="2024-10-27">
+          <div class="day-week">Неділя</div>
+          <div class="day-month">27 жовтня</div>
+        </div>
+        <div class="date-item" data-date="2024-10-28">
+          <div class="day-week">Понеділок</div>
+          <div class="day-month">28 жовтня</div>
+        </div>
+        <div class="date-item" data-date="2024-10-29">
+          <div class="day-week">Вівторок</div>
+          <div class="day-month">29 жовтня</div>
+        </div>
+        <div class="date-item" data-date="2024-10-30">
+          <div class="day-week">Середа</div>
+          <div class="day-month">30 жовтня</div>
+        </div>
+        <div class="date-item" data-date="2024-10-31">
+          <div class="day-week">Четвер</div>
+          <div class="day-month">31 жовтня</div>
+        </div>
+        <div class="date-item" data-date="2024-11-01">
+          <div class="day-week">П'ятниця</div>
+          <div class="day-month">1 листопада</div>
+        </div>
+        <div class="date-item" data-date="2024-11-02">
+          <div class="day-week">Субота</div>
+          <div class="day-month">2 листопада</div>
+        </div>
+        <div class="date-item" data-date="2024-11-03">
+          <div class="day-week">Неділя</div>
+          <div class="day-month">3 листопада</div>
+        </div>
+        <div class="date-item" data-date="2024-11-04">
+          <div class="day-week">Понеділок</div>
+          <div class="day-month">4 листопада</div>
+        </div>
+      </div>
+
+      <button class="slider-arrow right-arrow">›</button>
+    </div>
+  </div>
+
+  <!-- Основной контент (без изменений) -->
+  <div class="booking-content">
+    <div class="time-selection-container">
+      <h3 class="time-title">Оберіть час консультації</h3>
+      <div class="time-grid">
+        <div class="time-slot">08:00</div>
+        <div class="time-slot">09:00</div>
+        <div class="time-slot">10:00</div>
+        <div class="time-slot">11:00</div>
+        <div class="time-slot">12:00</div>
+        <div class="time-slot">13:00</div>
+        <div class="time-slot">14:00</div>
+        <div class="time-slot">15:00</div>
+        <div class="time-slot">16:00</div>
+        <div class="time-slot">17:00</div>
+        <div class="time-slot">18:00</div>
+        <div class="time-slot">19:00</div>
+        <div class="time-slot">20:00</div>
+        <div class="time-slot">21:00</div>
+        <div class="time-slot">22:00</div>
+      </div>
+    </div>
+
+    <div class="psychologist-info-container">
+      <div class="psychologist-main-info">
+        <div class="psychologist-photo-large">
+          <img
+            src="{% static 'booking/img/psychologists/oleg_sidorenko.png' %}"
+            alt="Олег Сидоренко"
+          />
+        </div>
+
+        <div class="psychologist-details">
+          <div class="price-section">
+            <span class="price">2000 ₴</span>
+          </div>
+          <div class="name-section">
+            <h3 class="psychologist-name">Олег Сидоренко</h3>
+          </div>
+          <div class="consultation-type">Консультація</div>
+          <div class="time-range">08:00 - 22:00</div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn-write-psychologist">Написати психологу</button>
+        <button class="btn-book-consultation">Забронювати</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .booking-page {
+    padding: 40px;
+  }
+
+  /* Заголовок как в psychologists_list.html */
+  .page-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding: 0 20px;
+  }
+
+  .content-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+  }
+
+  /* Слайдер дат - ПРЕЖНИЙ РАЗМЕР, БОЛЬШЕ ЭЛЕМЕНТОВ */
+  .date-slider-container {
+    margin-bottom: 40px;
+    padding: 0 20px;
+  }
+
+  .date-slider {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+  }
+
+  .slider-arrow {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #009141;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+    flex-shrink: 0;
+  }
+
+  .slider-arrow:hover {
+    background-color: #f0f0f0;
+  }
+
+  .dates-wrapper {
+    display: flex;
+    gap: 12px;
+    flex: 1;
+    justify-content: flex-start; /* Теперь можно скроллить */
+    overflow-x: auto;
+    padding: 10px 5px;
+    scrollbar-width: none; /* Скрыть скроллбар для Firefox */
+    -ms-overflow-style: none; /* Скрыть скроллбар для IE */
+  }
+
+  .dates-wrapper::-webkit-scrollbar {
+    display: none; /* Скрыть скроллбар для Webkit */
+  }
+
+  .date-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #009141;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 90px;
+    flex-shrink: 0; /* Важно для скролла */
+  }
+
+  .date-item.active,
+  .date-item:hover {
+    background: #20ae60;
+    color: #ffffff;
+  }
+
+  .day-week {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .day-month {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  /* Остальные стили без изменений */
+  .booking-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    padding: 0 20px;
+  }
+
+  .time-selection-container {
+    border: 1px solid #009141;
+    border-radius: 15px;
+    padding: 30px;
+    background: white;
+  }
+
+  .time-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 25px;
+  }
+
+  .time-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px 24px;
+  }
+
+  .time-slot {
+    padding: 12px 16px;
+    background: #effcf5;
+    color: #0c8040;
+    border-radius: 25px;
+    text-align: center;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .time-slot:hover,
+  .time-slot.active {
+    background: #20ae60;
+    color: #ffffff;
+  }
+
+  .psychologist-info-container {
+    background: #f3f3f3;
+    border-radius: 15px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .psychologist-main-info {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .psychologist-photo-large img {
+    width: 152px;
+    height: 152px;
+    border-radius: 15px;
+    object-fit: cover;
+  }
+
+  .psychologist-details {
+    flex: 1;
+  }
+
+  .price-section {
+    margin-bottom: 15px;
+  }
+
+  .price {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+  }
+
+  .name-section {
+    margin-bottom: 8px;
+  }
+
+  .psychologist-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+  }
+
+  .consultation-type {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 5px;
+  }
+
+  .time-range {
+    font-size: 14px;
+    color: #666;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 15px;
+  }
+
+  .btn-write-psychologist {
+    flex: 1;
+    padding: 15px 20px;
+    background: #ffffff;
+    color: #0a7900;
+    border: 1px solid #0a7900;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-write-psychologist:hover {
+    background: #f0f0f0;
+  }
+
+  .btn-book-consultation {
+    flex: 1;
+    padding: 15px 20px;
+    background: #009142;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .btn-book-consultation:hover {
+    background: #007a35;
+  }
+
+  @media (max-width: 1200px) {
+    .booking-content {
+      grid-template-columns: 1fr;
+    }
+
+    .time-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .booking-page {
+      padding: 20px;
+    }
+
+    .dates-wrapper {
+      justify-content: flex-start;
+    }
+
+    .date-item {
+      min-width: 85px;
+      padding: 10px 12px;
+    }
+
+    .time-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .psychologist-main-info {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<script>
+  // JavaScript для интерактивности
+  document.addEventListener("DOMContentLoaded", function () {
+    // Обработка выбора даты
+    const dateItems = document.querySelectorAll(".date-item");
+    dateItems.forEach((item) => {
+      item.addEventListener("click", function () {
+        dateItems.forEach((d) => d.classList.remove("active"));
+        this.classList.add("active");
+      });
+    });
+
+    // Обработка выбора времени
+    const timeSlots = document.querySelectorAll(".time-slot");
+    timeSlots.forEach((slot) => {
+      slot.addEventListener("click", function () {
+        timeSlots.forEach((t) => t.classList.remove("active"));
+        this.classList.add("active");
+      });
+    });
+
+    // Заглушки для кнопок
+    document
+      .querySelector(".btn-book-consultation")
+      .addEventListener("click", function () {
+        alert("Функція бронювання буде реалізована найближчим часом!");
+      });
+
+    document
+      .querySelector(".btn-write-psychologist")
+      .addEventListener("click", function () {
+        alert("Функція написання психологу буде реалізована найближчим часом!");
+      });
+
+    // Простая логика слайдера
+    const datesWrapper = document.querySelector(".dates-wrapper");
+    const leftArrow = document.querySelector(".left-arrow");
+    const rightArrow = document.querySelector(".right-arrow");
+
+    leftArrow.addEventListener("click", function () {
+      datesWrapper.scrollBy({ left: -200, behavior: "smooth" });
+    });
+
+    rightArrow.addEventListener("click", function () {
+      datesWrapper.scrollBy({ left: 200, behavior: "smooth" });
+    });
+  });
+</script>
+
+<!-- JavaScript для исправления активной навигации -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Убираем активное состояние у всех пунктов меню
+    const allNavLinks = document.querySelectorAll(".nav-link");
+    allNavLinks.forEach((link) => {
+      link.classList.remove("active");
+    });
+
+    // Находим пункт "Бронювання" в подменю и делаем его активным
+    const bookingLinks = document.querySelectorAll(".nav-link");
+    bookingLinks.forEach((link) => {
+      if (link.textContent.trim() === "Бронювання") {
+        link.classList.add("active");
+        // Также активируем родительский пункт "Мої записи"
+        const parentLink = link.closest(".submenu").previousElementSibling;
+        if (parentLink && parentLink.classList.contains("has-submenu")) {
+          parentLink.classList.add("active-submenu");
+          parentLink.nextElementSibling.style.display = "block";
+        }
+      }
+    });
+  });
+</script>
+{% endblock %}
