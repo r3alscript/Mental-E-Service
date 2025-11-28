@@ -1,0 +1,56 @@
+.header {
+    background: white;
+    box-shadow: 0 0 45px rgba(15, 185, 0, 0.15);
+    position: sticky;
+    height: 50px !important;
+    top: 0;
+    z-index: 100;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo img {
+    height: 40px;
+}
+
+.logo-text {
+    font-family: "MuseoModerno", sans-serif;
+    font-size: 24px;
+    font-weight: 300;
+    color: #000000;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+
+.header-icons {
+    display: flex;
+    gap: 20px;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+
+}
+
+.icon-img {
+    width: 26px;
+    height: 26px;
+}

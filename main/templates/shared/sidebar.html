@@ -1,0 +1,83 @@
+{% load static %}
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=MuseoModerno:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<nav class="sidebar">
+
+  <ul class="nav-menu">
+
+    <li class="nav-item">
+        <a href="{% url 'profile_router' %}" class="nav-link">
+            <img src="{% static 'shared/media/personal-collection.svg' %}" class="nav-icon" alt="">
+            Мій профіль
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="#" class="nav-link has-submenu">
+            <img src="{% static 'shared/media/notebook.svg' %}" class="nav-icon" alt="">
+            Мої записи
+        </a>
+
+        <ul class="submenu">
+            <li>
+                <a href="#" class="nav-link">
+                    <img src="{% static 'shared/media/history.svg' %}" class="nav-icon" alt="">
+                    Історія записів
+                </a>
+            </li>
+
+            <li>
+                <a href="/booking/booking/" class="nav-link">
+                    <img src="{% static 'shared/media/notebook-and-pen.svg' %}" class="nav-icon" alt="">
+                    Бронювання
+                </a>
+            </li>
+        </ul>
+    </li>
+
+    <li class="nav-item">
+        <a href="#" class="nav-link">
+            <img src="{% static 'shared/media/message.svg' %}" class="nav-icon" alt="">
+            Чати
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="{% url 'psychologists_list' %}" class="nav-link">
+            <img src="{% static 'shared/media/id-card-h.svg' %}" class="nav-icon" alt="">
+            Психологи
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="#" class="nav-link">
+            <img src="{% static 'shared/media/phone-telephone.svg' %}" class="nav-icon" alt="">
+            Гарячі лінії
+        </a>
+    </li>
+
+  </ul>
+
+  <div class="logout-block">
+      <a href="{% url 'logout' %}" class="logout-btn">
+          <img src="{% static 'shared/media/logout.svg' %}" class="logout-icon">
+          Вийти
+      </a>
+  </div>
+
+</nav>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const navItems = document.querySelectorAll(".nav-item");
+
+    navItems.forEach(item => {
+        item.addEventListener("click", function (e) {
+            if (e.target.closest(".submenu")) return;
+            navItems.forEach(i => i.classList.remove("active"));
+
+            this.classList.add("active");
+        });
+    });
+});
+</script>

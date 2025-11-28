@@ -1,5 +1,5 @@
 body {
-  background-color: #f8fff8; /* или тот цвет, что на макете */
+  background-color: #f8fff8; 
   background-image: url("../media/abstract-line.svg");
   background-repeat: no-repeat;
   background-position: center;
@@ -11,7 +11,6 @@ body {
   color: #1a1a1a;
 }
 
-/* Header */
 .header {
   display: flex;
   align-items: center;
@@ -34,7 +33,6 @@ body {
   font-size: 20px;
 }
 
-/* Central card */
 .role-selection {
   display: flex;
   justify-content: center;
@@ -96,7 +94,6 @@ body {
 
 .guest-link {
   display: inline-block;
-  margin-top: 30px;
   color: #61b347;
   font-size: 15px;
   text-decoration: none;
@@ -106,7 +103,6 @@ body {
   text-decoration: underline;
 }
 
-/* Responsive */
 @media (max-width: 600px) {
   .roles {
     flex-direction: column;
@@ -122,3 +118,29 @@ body {
     padding: 30px 20px;
   }
 }
+
+.auth-links {
+    margin-top: 25px;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+}
+
+.auth-links a {
+    color: #61b347;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
+}
+
+.auth-links .divider {
+    color: #444;
+    font-size: 16px;
+    margin: 0 5px;
+}
+

@@ -1,12 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from .models import User, Psychologist
-from .forms import PsychologistPersonalForm, PsychologistWorkForm
-from datetime import date
+from .models import User, Client, Psychologist
+from .forms import PsychologistPersonalForm, PsychologistWorkForm, ClientRegisterForm
 import uuid
-
 
 def select_role(request):
     return render(request, "auth/select_role.html")
@@ -15,22 +12,27 @@ def select_role(request):
 def login_view(request):
     if request.user.is_authenticated:
         return redirect("/")
+
     if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-        user = authenticate(request, username=username, password=password)
-        if not user:
-            try:
-                user_obj = User.objects.get(email=username)
-                user = authenticate(request, username=user_obj.username, password=password)
-            except User.DoesNotExist:
-                user = None
+        phone = request.POST.get("username", "").strip()
+        password = request.POST.get("password", "").strip()
+
+        clean = phone.replace(" ", "").replace("-", "")
+        if clean.startswith("+380"):
+            clean = clean[4:]
+        elif clean.startswith("380"):
+            clean = clean[3:]
+        elif clean.startswith("0"):
+            clean = clean[1:]
+
+        user = authenticate(request, username=clean, password=password)
+
         if user:
             login(request, user)
-            messages.success(request, f"Вітаємо, {user.first_name}!")
-            return redirect("/")
+            return redirect("profile_router")
         else:
-            messages.error(request, "Невірний логін або пароль.")
+            messages.error(request, "Невірний номер телефону або пароль.")
+
     return render(request, "auth/login.html")
 
 
@@ -45,42 +47,28 @@ def guest_login(request):
     guest = User.objects.create_user(
         username=username,
         email=email,
-        first_name="Anonymous",
-        last_name="Client",
-        role="client",
-        password=None,
+        first_name="Guest",
+        last_name="Anonymous",
+        role="guest",
+        password=None
     )
     login(request, guest, backend="django.contrib.auth.backends.ModelBackend")
-    return render(request, "auth/guest_login.html", {"guest": guest})
+    return render(request, "auth/guest_login.html", {"guest_username": username})
 
 
 def register_client(request):
     if request.method == "POST":
-        form = PsychologistPersonalForm(request.POST)
+        form = ClientRegisterForm(request.POST)
         if form.is_valid():
-            data = form.cleaned_data
-            if not data.get("email") or not data.get("password"):
-                messages.error(request, "Email або пароль не можуть бути порожніми.")
-                return render(request, "auth/register_client.html", {"form": form})
-            user = User.objects.create_user(
-                username=data["email"],
-                email=data["email"],
-                first_name=data["first_name"],
-                last_name=data["last_name"],
-                patronymic=data["patronymic"],
-                birth_date=data["birth_date"],
-                phone=data["phone"],
-                document_type=data["document_type"],
-                document_number=data["document_number"],
-                role="client",
-                password=data["password"],
-            )
-            messages.success(request, "Клієнт успішно зареєстрований!")
+            user = form.save()
+
+            request.session["auto_login_user_id"] = user.id
+
             return redirect("register_success")
-        else:
-            messages.error(request, "Будь ласка, перевірте правильність введених даних.")
+
     else:
-        form = PsychologistPersonalForm()
+        form = ClientRegisterForm()
+
     return render(request, "auth/register_client.html", {"form": form})
 
 
@@ -88,102 +76,68 @@ def register_psychologist_personal(request):
     if request.method == "POST":
         form = PsychologistPersonalForm(request.POST)
         if form.is_valid():
-            try:
-                # ✅ ИСПРАВЛЕНО: используем метод save() формы вместо ручного создания
-                user = form.save()  # Форма сама сохранит пользователя с хэшированным паролем
-                
-                # ✅ ИСПРАВЛЕНО: создаем профиль психолога
-                Psychologist.objects.create(user=user)
-                
-                # ✅ ИСПРАВЛЕНО: сохраняем ID пользователя в сессии для следующего шага
-                request.session["psychologist_user_id"] = user.id
-                
-                messages.success(request, "Особисті дані успішно збережено!")
-                return redirect("register_psychologist_professional")
-            except Exception as e:
-                messages.error(request, f"Помилка при збереженні: {str(e)}")
+            user = form.save()
+
+            request.session["psychologist_user_id"] = user.id
+
+            messages.success(request, "Особисті дані збережено!")
+            return redirect("register_psychologist_professional")
         else:
             messages.error(request, "Будь ласка, виправте помилки у формі.")
     else:
         form = PsychologistPersonalForm()
-    
+
     return render(request, "auth/register_psychologist_personal.html", {"form": form})
 
 
-# def register_psychologist_professional(request):
-#     data = request.session.get("psychologist_data")
-#     if not data:
-#         return redirect("register_psychologist_personal")
-#     if data.get("birth_date"):
-#         data["birth_date"] = date.fromisoformat(data["birth_date"])
-#     if request.method == "POST":
-#         form = PsychologistWorkForm(request.POST)
-#         if form.is_valid():
-#             user = User(
-#                 username=data["email"],
-#                 email=data["email"],
-#                 first_name=data["first_name"],
-#                 last_name=data["last_name"],
-#                 patronymic=data["patronymic"],
-#                 birth_date=data["birth_date"],
-#                 phone=data["phone"],
-#                 document_type=data["document_type"],
-#                 document_number=data["document_number"],
-#                 role="psychologist",
-#             )
-#             user.set_password(data["password"])
-#             user.save()
-#             profile = form.save(commit=False)
-#             profile.user = user
-#             profile.save()
-#             if "psychologist_data" in request.session:
-#                 del request.session["psychologist_data"]
-#             messages.success(request, "Психолог успішно зареєстрований!")
-#             return redirect("register_success")
-#         else:
-#             messages.error(request, "Будь ласка, перевірте введені поля.")
-#     else:
-#         form = PsychologistWorkForm()
-#     return render(request, "auth/register_psychologist_professional.html", {"form": form})
 
 def register_psychologist_professional(request):
-    # ✅ ИСПРАВЛЕНО: получаем ID пользователя вместо полных данных
     user_id = request.session.get("psychologist_user_id")
     if not user_id:
         return redirect("register_psychologist_personal")
-    
-    try:
-        user = User.objects.get(id=user_id)
-    except User.DoesNotExist:
-        messages.error(request, "Користувача не знайдено. Почніть реєстрацію спочатку.")
+
+    user = User.objects.filter(id=user_id).first()
+    if not user:
+        messages.error(request, "Користувача не знайдено.")
         return redirect("register_psychologist_personal")
-    
+
     if request.method == "POST":
         form = PsychologistWorkForm(request.POST)
+
         if form.is_valid():
-            try:
-                # ✅ ИСПРАВЛЕНО: сохраняем профиль психолога
-                profile = form.save(commit=False)
-                profile.user = user  # Связываем с существующим пользователем
-                profile.save()
-                
-                # Очищаем сессию
-                if "psychologist_user_id" in request.session:
-                    del request.session["psychologist_user_id"]
-                
-                messages.success(request, "Психолог успішно зареєстрований!")
-                return redirect("register_success")
-                
-            except Exception as e:
-                messages.error(request, f"Помилка при збереженні профілю: {str(e)}")
+            profile, created = Psychologist.objects.get_or_create(user=user)
+
+            data = form.cleaned_data
+            profile.specialization = data["specialization"]
+            profile.language = data["language"]
+            profile.about = data["about"]
+            profile.cancel_policy = data["cancel_policy"]
+            profile.consultation_format = data["consultation_format"]
+            profile.save()
+            request.session.pop("psychologist_user_id", None)
+            request.session["auto_login_user_id"] = user.id
+
+            messages.success(request, "Психолога успішно зареєстровано!")
+            return redirect("register_success")
+
         else:
-            messages.error(request, "Будь ласка, перевірте введені поля.")
+            messages.error(request, "Будь ласка, перевірте введені дані.")
     else:
         form = PsychologistWorkForm()
-    
+
     return render(request, "auth/register_psychologist_professional.html", {"form": form})
 
 
-@login_required(login_url="/auth/login/")
+
 def register_success(request):
-    return render(request, "auth/register_success.html")
+    user_id = request.session.get("auto_login_user_id")
+
+    if user_id:
+        user = User.objects.get(id=user_id)
+        user.backend = "django.contrib.auth.backends.ModelBackend"
+        login(request, user)
+        del request.session["auto_login_user_id"]
+
+    return render(request, "auth/register_success.html", {
+        "role": request.user.role if request.user.is_authenticated else None
+    })

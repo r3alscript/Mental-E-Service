@@ -1,0 +1,269 @@
+  .booking-page {
+    padding: 40px;
+  }
+
+  .page-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding: 0 20px;
+  }
+
+  .content-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+  }
+
+  .date-slider-container {
+    margin-bottom: 40px;
+    padding: 0 20px;
+  }
+
+  .date-slider {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+  }
+
+  .slider-arrow {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #009141;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+    flex-shrink: 0;
+  }
+
+  .slider-arrow:hover {
+    background-color: #f0f0f0;
+  }
+
+  .dates-wrapper {
+    display: flex;
+    gap: 12px;
+    flex: 1;
+    justify-content: flex-start; 
+    overflow-x: auto;
+    padding: 10px 5px;
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
+  }
+
+  .dates-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .date-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #009141;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 90px;
+    flex-shrink: 0; 
+  }
+
+  .date-item.active,
+  .date-item:hover {
+    background: #20ae60;
+    color: #ffffff;
+  }
+
+  .day-week {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .day-month {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .booking-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    padding: 0 20px;
+  }
+
+  .time-selection-container {
+    border: 1px solid #009141;
+    border-radius: 15px;
+    padding: 30px;
+    background: white;
+  }
+
+  .time-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 25px;
+  }
+
+  .time-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px 24px;
+  }
+
+  .time-slot {
+    padding: 12px 16px;
+    background: #effcf5;
+    color: #0c8040;
+    border-radius: 25px;
+    text-align: center;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .time-slot:hover,
+  .time-slot.active {
+    background: #20ae60;
+    color: #ffffff;
+  }
+
+  .psychologist-info-container {
+    background: #f3f3f3;
+    border-radius: 15px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .psychologist-main-info {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .psychologist-photo-large img {
+    width: 152px;
+    height: 152px;
+    border-radius: 15px;
+    object-fit: cover;
+  }
+
+  .psychologist-details {
+    flex: 1;
+  }
+
+  .price-section {
+    margin-bottom: 15px;
+  }
+
+  .price {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+  }
+
+  .name-section {
+    margin-bottom: 8px;
+  }
+
+  .psychologist-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+  }
+
+  .consultation-type {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 5px;
+  }
+
+  .time-range {
+    font-size: 14px;
+    color: #666;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 15px;
+  }
+
+  .btn-write-psychologist {
+    flex: 1;
+    padding: 15px 20px;
+    background: #ffffff;
+    color: #0a7900;
+    border: 1px solid #0a7900;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-write-psychologist:hover {
+    background: #f0f0f0;
+  }
+
+  .btn-book-consultation {
+    flex: 1;
+    padding: 15px 20px;
+    background: #009142;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .btn-book-consultation:hover {
+    background: #007a35;
+  }
+
+  @media (max-width: 1200px) {
+    .booking-content {
+      grid-template-columns: 1fr;
+    }
+
+    .time-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .booking-page {
+      padding: 20px;
+    }
+
+    .dates-wrapper {
+      justify-content: flex-start;
+    }
+
+    .date-item {
+      min-width: 85px;
+      padding: 10px 12px;
+    }
+
+    .time-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .psychologist-main-info {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+    }
+  }

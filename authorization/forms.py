@@ -1,156 +1,94 @@
 from django import forms
 from datetime import date
 from .models import User, Psychologist
+import uuid
 
+DOCUMENT_TYPES = [
+    ("passport", "Паспорт"),
+    ("idcard", "ID-Карта"),
+]
 
-class PsychologistPersonalForm(forms.ModelForm):
-    confirm_data = forms.BooleanField(
-        label='Я підтверджую заяву "Дані достовірні"',
-        required=True
-    )
+class ClientRegisterForm(forms.ModelForm):
+    confirm_data = forms.BooleanField(label='Я підтверджую заяву "Дані достовірні"', required=True)
+
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={
-            "class": "form-control",
-            "placeholder": "Пароль"
-        }),
+        widget=forms.PasswordInput(attrs={"class": "input", "placeholder": "Пароль"}),
         label="Пароль"
     )
+
     password2 = forms.CharField(
-        widget=forms.PasswordInput(attrs={
-            "class": "form-control", 
-            "placeholder": "Повторити пароль"  # ИСПРАВЛЕН плейсхолдер
-        }),
+        widget=forms.PasswordInput(attrs={"class": "input", "placeholder": "Повторити пароль"}),
         label="Підтвердження пароля"
     )
-    tz = forms.ChoiceField(
-        choices=[
-            ('', 'Оберіть часовий пояс'),
-            ('Europe/Kyiv', 'Київ (UTC+2)'),
-            ('Europe/London', 'Лондон (UTC+0)'),
-            ('Europe/Berlin', 'Берлін (UTC+1)'),
-        ],
-        label="Часовий пояс",
-        widget=forms.Select(attrs={"class": "form-control"})
-    )
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        
-        # УБИРАЕМ значения по умолчанию
-        self.fields['document_number'].initial = ''  # Убирает "000000"
-        self.fields['email'].initial = ''  # Убирает предзаполнение email
-        self.fields['password'].initial = ''  # Убирает предзаполнение пароля
-        self.fields['password2'].initial = ''  # Убирает предзаполнение подтверждения пароля
-        
-        # Обновляем атрибуты для всех полей
-        for field in self.fields.values():
-            field.widget.attrs.update({'class': 'input'})
+    document_type = forms.ChoiceField(
+        choices=DOCUMENT_TYPES,
+        widget=forms.Select(attrs={"class": "input"}),
+        required=True
+    )
 
     class Meta:
         model = User
         fields = [
-            "last_name", "first_name", "patronymic", "birth_date", 
+            "last_name", "first_name", "patronymic", "birth_date",
             "phone", "email", "document_type", "document_number",
-            "tz", "password", "password2", 
+            "password", "password2"
         ]
-        labels = {
-            "last_name": "Прізвище",
-            "first_name": "Ім’я", 
-            "patronymic": "По батькові",
-            "birth_date": "Дата народження", 
-            "phone": "Номер телефону",
-            "email": "Електронна пошта",
-            "document_type": "Тип документа",
-            "document_number": "Номер документа",
-        }
         widgets = {
-            "last_name": forms.TextInput(attrs={
-                "class": "form-control",
-                "placeholder": "Прізвище"
-            }),
-            "first_name": forms.TextInput(attrs={
-                "class": "form-control", 
-                "placeholder": "Ім'я"
-            }),
-            "patronymic": forms.TextInput(attrs={
-                "class": "form-control",
-                "placeholder": "По батькові" 
-            }),
+            "last_name": forms.TextInput(attrs={"placeholder": "Прізвище", "class": "input"}),
+            "first_name": forms.TextInput(attrs={"placeholder": "Ім'я", "class": "input"}),
+            "patronymic": forms.TextInput(attrs={"placeholder": "По батькові", "class": "input"}),
             "birth_date": forms.TextInput(attrs={
-                "class": "form-control",
                 "placeholder": "Дата народження",
                 "onfocus": "(this.type='date')",
-                "onblur": "(this.type='text')"
+                "onblur": "(this.type='text')",
+                "class": "input"
             }),
-            "phone": forms.TextInput(attrs={
-                "class": "form-control", 
-                "placeholder": "+380 Номер телефону"
-            }),
-            "email": forms.EmailInput(attrs={
-                "class": "form-control",
-                "placeholder": "Електронна пошта"
-            }),
-            "document_type": forms.Select(
-                choices=[
-                    ("", "Оберіть тип документа"),
-                    ("passport", "Паспорт"),
-                    ("id_card", "ID-карта"),
-                ],
-                attrs={"class": "form-control"}
-            ),
-            "document_number": forms.TextInput(attrs={
-                "class": "form-control",
-                "placeholder": "Номер документа"
-            }),
-            # password и password2 УБРАНЫ отсюда - они уже определены выше
+            "phone": forms.TextInput(attrs={"placeholder": "Номер телефону", "id": "phone-field", "class": "input"}),
+            "email": forms.EmailInput(attrs={"placeholder": "Електронна пошта", "class": "input"}),
+            "document_number": forms.TextInput(attrs={"placeholder": "Номер документа", "class": "input"}),
         }
 
-
     def clean_last_name(self):
-        value = self.cleaned_data.get("last_name", "")
-        if not value.isalpha():
+        v = self.cleaned_data.get("last_name", "")
+        if not v.isalpha():
             raise forms.ValidationError("Прізвище має містити лише літери.")
-        if " " in value:
-            raise forms.ValidationError("Прізвище не може містити пробіли.")
-        return value.strip()
+        return v
 
     def clean_first_name(self):
-        value = self.cleaned_data.get("first_name", "")
-        if not value.isalpha():
+        v = self.cleaned_data.get("first_name", "")
+        if not v.isalpha():
             raise forms.ValidationError("Ім’я має містити лише літери.")
-        if " " in value:
-            raise forms.ValidationError("Ім’я не може містити пробіли.")
-        return value.strip()
+        return v
 
     def clean_patronymic(self):
-        value = self.cleaned_data.get("patronymic", "")
-        if value and not value.isalpha():
+        v = self.cleaned_data.get("patronymic", "")
+        if v and not v.isalpha():
             raise forms.ValidationError("По батькові має містити лише літери.")
-        return value.strip()
+        return v
 
     def clean_birth_date(self):
-        bdate = self.cleaned_data.get("birth_date")
-        if bdate and bdate > date.today():
+        d = self.cleaned_data.get("birth_date")
+        if d and d > date.today():
             raise forms.ValidationError("Дата народження не може бути у майбутньому.")
-        return bdate
+        return d
 
     def clean_phone(self):
-        phone = self.cleaned_data.get("phone", "")
-        if " " in phone:
-            raise forms.ValidationError("Номер телефону не може містити пробіли.")
-        if not phone.startswith("+380") and not phone.startswith("0"):
-            raise forms.ValidationError("Номер телефону повинен починатися з +380 або 0.")
-        if len(phone) < 10 or len(phone) > 13:
-            raise forms.ValidationError("Некоректна довжина номера телефону.")
-        if not phone.replace("+", "").isdigit():
-            raise forms.ValidationError("Номер телефону має містити лише цифри.")
+        phone = self.cleaned_data.get("phone", "").strip()
+
+        if not phone.isdigit():
+            raise forms.ValidationError("Після +380 можна вводити лише цифри.")
+
+        if len(phone) != 9:
+            raise forms.ValidationError("Номер телефону повинен містити 9 цифр після +380.")
+
         return phone
 
     def clean_document_number(self):
         doc = self.cleaned_data.get("document_number", "")
         if not doc.isdigit():
             raise forms.ValidationError("Номер документа має містити лише цифри.")
-        if len(doc) < 5 or len(doc) > 15:
+        if not 5 <= len(doc) <= 15:
             raise forms.ValidationError("Номер документа має бути від 5 до 15 цифр.")
         return doc
 
@@ -160,59 +98,125 @@ class PsychologistPersonalForm(forms.ModelForm):
             raise forms.ValidationError("Email не може містити пробіли.")
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError("Користувач з таким email уже існує.")
-        return email.strip()
+        return email
 
     def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data.get("password")
-        password2 = cleaned_data.get("password2")
-        if password != password2:
+        cd = super().clean()
+        if cd.get("password") != cd.get("password2"):
             raise forms.ValidationError("Паролі не співпадають.")
-        # ДОБАВЛЯЕМ проверку подтверждения данных (исправляем комментарий)
-        if not cleaned_data.get("confirm_data"):
-            raise forms.ValidationError("Підтвердьте, що дані достовірні.")
-        return cleaned_data
+        return cd
 
-    # ДОБАВЛЯЕМ метод save для правильного сохранения пароля
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.set_password(self.cleaned_data['password'])  # Хэшируем пароль
-        user.role = 'psychologist'  # Устанавливаем роль
+        user.username = uuid.uuid4().hex
+        user.set_password(self.cleaned_data["password"])
+        user.role = "client"
         if commit:
             user.save()
         return user
 
+
+class PsychologistPersonalForm(forms.ModelForm):
+    confirm_data = forms.BooleanField(label='Я підтверджую заяву "Дані достовірні"', required=True)
+
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={"class": "input", "placeholder": "Пароль"}),
+        label="Пароль"
+    )
+
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={"class": "input", "placeholder": "Повторити пароль"}),
+        label="Підтвердження пароля"
+    )
+
+    document_type = forms.ChoiceField(
+        choices=DOCUMENT_TYPES,
+        widget=forms.Select(attrs={"class": "input"}),
+        required=True
+    )
+
+    class Meta:
+        model = User
+        fields = [
+            "last_name", "first_name", "patronymic", "birth_date",
+            "phone", "email", "document_type", "document_number",
+            "password", "password2"
+        ]
+        widgets = {
+            "last_name": forms.TextInput(attrs={"placeholder": "Прізвище", "class": "input"}),
+            "first_name": forms.TextInput(attrs={"placeholder": "Ім'я", "class": "input"}),
+            "patronymic": forms.TextInput(attrs={"placeholder": "По батькові", "class": "input"}),
+            "birth_date": forms.TextInput(attrs={
+                "placeholder": "Дата народження",
+                "onfocus": "(this.type='date')",
+                "onblur": "(this.type='text')",
+                "class": "input"
+            }),
+            "phone": forms.TextInput(attrs={"placeholder": "Номер телефону", "id": "phone-field", "class": "input"}),
+            "email": forms.EmailInput(attrs={"placeholder": "Електронна пошта", "class": "input"}),
+            "document_number": forms.TextInput(attrs={"placeholder": "Номер документа", "class": "input"}),
+        }
+
+    def clean(self):
+        cd = super().clean()
+        if cd.get("password") != cd.get("password2"):
+            raise forms.ValidationError("Паролі не співпадають.")
+        return cd
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get("phone", "").strip()
+
+        if not phone.isdigit():
+            raise forms.ValidationError("Після +380 можна вводити лише цифри.")
+
+        if len(phone) != 9:
+            raise forms.ValidationError("Номер телефону повинен містити 9 цифр після +380.")
+
+        return phone
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.username = uuid.uuid4().hex
+        user.set_password(self.cleaned_data["password"])
+        user.role = "psychologist"
+        if commit:
+            user.save()
+        return user
+
+
 class PsychologistWorkForm(forms.ModelForm):
+    cancel_policy = forms.ChoiceField(
+        label="Політика скасування",
+        choices=[
+            ("24_hours", "За 24 години"),
+            ("12_hours", "За 12 годин"),
+            ("6_hours", "За 6 годин"),
+        ],
+        widget=forms.Select(attrs={"class": "input"}),
+        required=True
+    )
+
+    consultation_format = forms.ChoiceField(
+        label="Формат прийомів",
+        choices=[
+            ("online", "Онлайн"),
+            ("offline", "Офлайн"),
+        ],
+        widget=forms.Select(attrs={"class": "input"}),
+        required=True
+    )
+
     class Meta:
         model = Psychologist
-        fields = ["specialization", "languages", "about"]
-        labels = {
-            "specialization": "Спеціалізація",
-            "languages": "Мови",
-            "about": "Про себе",
-        }
+        fields = ["specialization", "language", "about", "cancel_policy", "consultation_format"]
         widgets = {
-            "specialization": forms.TextInput(attrs={"class": "form-control"}),
-            "languages": forms.TextInput(attrs={"class": "form-control"}),
-            "about": forms.Textarea(attrs={"class": "form-control", "rows": 3}),
+            "specialization": forms.TextInput(attrs={"placeholder": "Спеціалізація", "class": "input"}),
+            "language": forms.TextInput(attrs={"placeholder": "Мова", "class": "input"}),
+            "about": forms.Textarea(attrs={"rows": 4, "placeholder": "Про себе", "class": "input"}),
         }
-
-    def clean_specialization(self):
-        value = self.cleaned_data.get("specialization", "")
-        if len(value) < 3:
-            raise forms.ValidationError("Вкажіть коректну спеціалізацію.")
-        if any(ch.isdigit() for ch in value):
-            raise forms.ValidationError("Спеціалізація не повинна містити цифри.")
-        return value.strip()
-
-    def clean_languages(self):
-        value = self.cleaned_data.get("languages", "")
-        if len(value) < 2:
-            raise forms.ValidationError("Мова повинна містити принаймні 2 символи.")
-        return value.strip()
 
     def clean_about(self):
-        text = self.cleaned_data.get("about", "")
-        if len(text.strip()) < 10:
+        v = self.cleaned_data.get("about", "")
+        if len(v.strip()) < 10:
             raise forms.ValidationError("Опис про себе повинен містити щонайменше 10 символів.")
-        return text
+        return v

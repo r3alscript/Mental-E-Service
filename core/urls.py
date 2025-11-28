@@ -8,4 +8,5 @@ urlpatterns = [
     path('', include('main.urls')),
     path('auth/', include('authorization.urls')),
     path('booking/', include('booking.urls')),
+    path('profile/', include('profiles.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

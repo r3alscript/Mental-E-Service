@@ -1,0 +1,150 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Профіль клієнта — E-Psycholog</title>
+
+    <link rel="icon" type="image/png" href="{% static 'auth/media/logo.png' %}">
+    <link rel="stylesheet" href="{% static 'shared/css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'shared/css/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'shared/css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'shared/css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'profiles/css/profile.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+{% include "shared/header.html" %}
+
+<div class="layout">
+
+    {% include "shared/sidebar.html" %}
+
+    <main class="page-content">
+
+        <div class="profile-section">
+
+            <div class="block-card personal-card" id="personalBlock">
+
+                <div class="personal-header">
+                    <h2 class="block-title green-title">Персональна інформація</h2>
+
+                    <a href="#" class="edit-btn personal-edit-btn">
+                        <img src="{% static 'profiles/media/edit.svg' %}" alt="" class="edit-icon">
+                        Редагувати
+                    </a>
+                </div>
+
+                <div class="personal-grid">
+
+                    <div class="personal-photo">
+                        <img 
+                            id="avatarPreview"
+                            src="{% if user.avatar %}{{ user.avatar.url }}{% else %}{% static 'profiles/media/default_avatar.png' %}{% endif %}"
+                            class="personal-avatar"
+                        >
+
+                        <input type="file" id="avatarInput" accept="image/*" hidden>
+                    </div>
+
+                    <div class="personal-info">
+
+                        <div class="info-field">
+                            <span class="label">Ім’я</span>
+                            <span class="value editable" data-field="first_name">{{ user.first_name }}</span>
+                        </div>
+
+                        <div class="info-field">
+                            <span class="label">Прізвище</span>
+                            <span class="value editable" data-field="last_name">{{ user.last_name }}</span>
+                        </div>
+
+                        <div class="info-field">
+                            <span class="label">По-батькові</span>
+                            <span class="value editable" data-field="patronymic">{{ user.patronymic }}</span>
+                        </div>
+
+                        <div class="info-field">
+                            <span class="label">Дата народження</span>
+                            <span class="value editable" data-field="birth_date">
+                                {{ user.birth_date|date:"Y-m-d" }}
+                            </span>
+                        </div>
+
+                        <div class="info-field">
+                            <span class="label">Номер телефона</span>
+                            <span class="value editable" data-field="phone">{{ user.phone }}</span>
+                        </div>
+
+                        <div class="info-field">
+                            <span class="label">Електронна адреса</span>
+                            <span class="value editable" data-field="email">{{ user.email }}</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions-row">
+                <a id="changePasswordBtn" class="action-btn green">Змінити пароль</a>
+                <a id="deleteAccountBtn" href="{% url 'delete_account' %}" class="action-btn red">Видалити акаунт</a>
+            </div>
+
+        </div>
+
+    </main>
+</div>
+
+{% include "shared/footer.html" %}
+
+<div id="passwordModal" class="password-modal" style="display:none;">
+    <div class="password-modal-content">
+
+        <h2>Змінити пароль</h2>
+
+        <label>Поточний пароль</label>
+        <input type="password" id="oldPassword" class="password-input">
+
+        <label>Новий пароль</label>
+        <input type="password" id="newPassword" class="password-input">
+
+        <div class="modal-actions">
+            <button id="passwordSubmitBtn" class="modal-save-btn" onclick="submitPasswordChange()">
+                Зберегти
+            </button>
+            <button class="modal-cancel-btn" onclick="closePasswordModal()">
+                Скасувати
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<div id="deleteModal" class="password-modal" style="display:none;">
+    <div class="password-modal-content">
+
+        <h2>Ви впевнені, що хочете видалити акаунт?</h2>
+
+        <p style="font-size:17px; margin: 15px 0 25px;">
+            <b>Усі дані будуть втрачені назавжди.</b>
+        </p>
+
+        <div class="modal-actions">
+            <button id="confirmDeleteBtn" class="modal-save-btn" style="background:#d64545;">
+                Видалити
+            </button>
+            <button class="modal-cancel-btn" onclick="closeDeleteModal()">
+                Скасувати
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<script src="{% static 'profiles/js/profile_script.js' %}"></script>
+
+</body>
+</html>

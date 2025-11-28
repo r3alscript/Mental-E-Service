@@ -13,7 +13,7 @@ class Booking(models.Model):
     psychologist = models.ForeignKey(Psychologist, on_delete=models.CASCADE, related_name='bookings')
     date = models.DateField()
     time = models.TimeField()
-    duration = models.IntegerField(default=60)  # длительность в минутах
+    duration = models.IntegerField(default=60)  
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     created_at = models.DateTimeField(auto_now_add=True)
     

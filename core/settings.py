@@ -5,9 +5,15 @@ from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+environ.Env.read_env(env_file=os.path.join(BASE_DIR, '.env'))
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost",
+    "http://127.0.0.1",
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
+]
 
 LOGGING = {
     'version': 1,
@@ -47,6 +53,7 @@ INSTALLED_APPS = [
     'main',
     'authorization',
     'booking',
+    'profiles.apps.ProfilesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -108,6 +115,11 @@ LOGIN_URL = '/auth/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/auth/login/'
 
+AUTHENTICATION_BACKENDS = [
+    'authorization.backends.PhoneBackend',     
+    'django.contrib.auth.backends.ModelBackend' 
+]
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -134,21 +146,11 @@ USE_I18N = True
 
 USE_TZ = True
 
-# В core/settings.py ЗАМЕНИТЕ весь раздел Static files на:
-
-# Static files (CSS, JavaScript, Images)
+# Static files 
 STATIC_URL = '/static/'
-
-# Для разработки
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'authorization/static'),
-]
-
-# Для продакшена/Docker
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# УДАЛИТЕ эту строку (она вызывает проблему):
-# STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+STATICFILES_DIRS = []  
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
