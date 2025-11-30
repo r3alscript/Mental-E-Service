@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Історія записів — E-Psycholog</title>
+
+    <link rel="stylesheet" href="{% static 'shared/css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'shared/css/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'shared/css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'booking/css/booking_styles.css' %}">
+</head>
+
+<body>
+{% include "shared/header.html" %}
+<div class="layout">
+{% include "shared/sidebar.html" %}
+
+<main class="page-content">
+
+    <div class="page-block">
+        <div class="page-controls">
+            <h1 class="content-title">Історія записів</h1>
+        </div>
+
+        <div class="bookings-list">
+            {% for b in history %}
+            <div class="booking-card booking-inline">
+
+                <div class="history-item">
+                    {% if b.psychologist.user == request.user %}
+                        <div><strong>Клієнт:</strong> {{ b.client.first_name }} {{ b.client.last_name }}</div>
+                    {% else %}
+                        <div><strong>Психолог:</strong> {{ b.psychologist.user.first_name }} {{ b.psychologist.user.last_name }}</div>
+                    {% endif %}
+
+                    <div><strong>Дата:</strong> {{ b.date|date:"d.m.Y" }}</div>
+                    <div><strong>Час:</strong> {{ b.time|time:"H:i" }}</div>
+
+                    <div><strong>Статус:</strong>
+                        {% if b.status == "approved" %}
+                            <span class="badge approved">Підтверджено</span>
+                        {% elif b.status == "completed" %}
+                            <span class="badge completed">Завершено</span>
+                        {% elif b.status == "rejected" %}
+                            <span class="badge rejected">Відхилено психологом</span>
+                        {% elif b.status == "canceled" %}
+                            <span class="badge canceled">Скасовано вами</span>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+            </div>
+            {% empty %}
+            <p class="empty-text">
+                Немає записів для відображення.
+            </p>
+            {% endfor %}
+        </div>
+
+    </div>
+
+</main>
+
+</div>
+
+{% include "shared/footer.html" %}
+</body>
+</html>

@@ -163,7 +163,7 @@ def upload_avatar_ajax(request):
 
     user = request.user
 
-    if user.avatar and user.avatar.name != "profiles/media/default_avatar.png":
+    if user.avatar and user.avatar.name != "/media/avatars/default_avatar.png":
         old_path = user.avatar.path
         if os.path.exists(old_path):
             os.remove(old_path)

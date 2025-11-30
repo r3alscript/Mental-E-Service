@@ -148,7 +148,14 @@ USE_TZ = True
 
 # Static files 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = []  
+STATICFILES_DIRS = [
+    BASE_DIR / "profiles" / "static",
+    BASE_DIR / "shared" / "static",
+    BASE_DIR / "authorization" / "static",
+    BASE_DIR / "booking" / "static",
+    BASE_DIR / "psychologists" / "static",
+    BASE_DIR / "main" / "static",
+] 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 

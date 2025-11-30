@@ -1,269 +1,177 @@
-  .booking-page {
-    padding: 40px;
-  }
 
-  .page-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 40px;
-    padding: 0 20px;
-  }
+.page-block {
+    padding: 10px 40px 40px;
+    font-family: "Montserrat", sans-serif !important;
+}
 
-  .content-title {
+.page-controls {
+    margin-bottom: 30px;
+}
+
+.content-title {
     font-size: 32px;
-    font-weight: 700;
-    color: #333;
-    margin: 0;
-  }
+    font-weight: 300;
+    color: #000;
+    margin-bottom: 10px;
+}
 
-  .date-slider-container {
-    margin-bottom: 40px;
-    padding: 0 20px;
-  }
+.section-title {
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
 
-  .date-slider {
+.empty-text {
+    font-size: 16px;
+    color: #777;
+    margin-top: 10px;
+    line-height: 1.5;
+}
+
+.bookings-list {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.booking-card {
+    background: #ffffff;
+    border: 1px solid #ccead6;
+    border-radius: 16px;
+    padding: 20px 25px;
+    display: flex;
     justify-content: space-between;
-    gap: 15px;
-  }
+    align-items: center;
+    transition: 0.2s ease;
+}
 
-  .slider-arrow {
-    background: none;
-    border: none;
-    font-size: 24px;
+.booking-card:hover {
+    border-color: #009141;
+    transform: translateY(-2px);
+}
+
+.booking-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.info-row {
+    font-size: 15px;
+    font-weight: 300;
+    color: #222;
+}
+
+.info-row strong {
+    font-weight: 500;
+}
+
+.badge {
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 400;
+    display: inline-block;
+}
+
+.badge.pending {
+    background: #fff4d6;
+    color: #9b6a00;
+}
+
+.badge.approved {
+    background: #e6f6eb;
     color: #009141;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 50%;
-    transition: background-color 0.2s;
-    flex-shrink: 0;
-  }
+}
 
-  .slider-arrow:hover {
-    background-color: #f0f0f0;
-  }
+.badge.rejected {
+    background: #fde8e8;
+    color: #b30000;
+}
 
-  .dates-wrapper {
+.action-buttons {
     display: flex;
     gap: 12px;
-    flex: 1;
-    justify-content: flex-start; 
-    overflow-x: auto;
-    padding: 10px 5px;
-    scrollbar-width: none; 
-    -ms-overflow-style: none; 
-  }
+}
 
-  .dates-wrapper::-webkit-scrollbar {
-    display: none;
-  }
-
-  .date-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 12px 16px;
-    border-radius: 12px;
-    background: #ffffff;
-    color: #009141;
-    cursor: pointer;
-    transition: all 0.2s;
-    min-width: 90px;
-    flex-shrink: 0; 
-  }
-
-  .date-item.active,
-  .date-item:hover {
-    background: #20ae60;
-    color: #ffffff;
-  }
-
-  .day-week {
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 4px;
-  }
-
-  .day-month {
-    font-size: 15px;
-    font-weight: 600;
-  }
-
-  .booking-content {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 30px;
-    padding: 0 20px;
-  }
-
-  .time-selection-container {
-    border: 1px solid #009141;
-    border-radius: 15px;
-    padding: 30px;
-    background: white;
-  }
-
-  .time-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 25px;
-  }
-
-  .time-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px 24px;
-  }
-
-  .time-slot {
-    padding: 12px 16px;
-    background: #effcf5;
-    color: #0c8040;
-    border-radius: 25px;
-    text-align: center;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .time-slot:hover,
-  .time-slot.active {
-    background: #20ae60;
-    color: #ffffff;
-  }
-
-  .psychologist-info-container {
-    background: #f3f3f3;
-    border-radius: 15px;
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-  }
-
-  .psychologist-main-info {
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
-  }
-
-  .psychologist-photo-large img {
-    width: 152px;
-    height: 152px;
-    border-radius: 15px;
-    object-fit: cover;
-  }
-
-  .psychologist-details {
-    flex: 1;
-  }
-
-  .price-section {
-    margin-bottom: 15px;
-  }
-
-  .price {
-    font-size: 24px;
-    font-weight: 700;
-    color: #333;
-  }
-
-  .name-section {
-    margin-bottom: 8px;
-  }
-
-  .psychologist-name {
-    font-size: 20px;
-    font-weight: 700;
-    color: #333;
-    margin: 0;
-  }
-
-  .consultation-type {
-    font-size: 16px;
-    color: #666;
-    margin-bottom: 5px;
-  }
-
-  .time-range {
-    font-size: 14px;
-    color: #666;
-  }
-
-  .action-buttons {
-    display: flex;
-    gap: 15px;
-  }
-
-  .btn-write-psychologist {
-    flex: 1;
-    padding: 15px 20px;
-    background: #ffffff;
-    color: #0a7900;
-    border: 1px solid #0a7900;
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .btn-write-psychologist:hover {
-    background: #f0f0f0;
-  }
-
-  .btn-book-consultation {
-    flex: 1;
-    padding: 15px 20px;
-    background: #009142;
-    color: #ffffff;
+.approve-btn,
+.reject-btn,
+.cancel-btn {
     border: none;
-    border-radius: 10px;
-    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-size: 14px;
     cursor: pointer;
-    transition: background-color 0.2s;
-  }
+    font-family: "Montserrat", sans-serif;
+    transition: 0.25s ease;
+}
 
-  .btn-book-consultation:hover {
-    background: #007a35;
-  }
+.approve-btn {
+    background: #009141;
+    color: #fff;
+}
 
-  @media (max-width: 1200px) {
-    .booking-content {
-      grid-template-columns: 1fr;
-    }
+.approve-btn:hover {
+    background: #0abf5a;
+}
 
-    .time-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
+.reject-btn {
+    background: #b30000;
+    color: #fff;
+}
 
-  @media (max-width: 768px) {
-    .booking-page {
-      padding: 20px;
-    }
+.reject-btn:hover {
+    background: #e6e6e6;
+}
 
-    .dates-wrapper {
-      justify-content: flex-start;
-    }
+.cancel-btn {
+    background: #b30000;
+    color: #fff;
+}
 
-    .date-item {
-      min-width: 85px;
-      padding: 10px 12px;
-    }
+.cancel-btn:hover {
+    background: #b2b2b2;
+}
 
-    .time-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .psychologist-main-info {
-      flex-direction: column;
-      text-align: center;
+@media (max-width: 850px) {
+    .booking-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
     }
 
     .action-buttons {
-      flex-direction: column;
+        width: 100%;
+        justify-content: flex-end;
     }
-  }
+}
+
+.booking-inline {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
+}
+
+.booking-inline div {
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.booking-inline strong {
+    font-weight: 500;
+}
+
+.history-item {
+    display: flex;
+    flex-direction: row;
+    gap: 35px;
+    align-items: center;
+    width: 100%;
+}
+
+.badge.completed {
+    background: #d0e7ff;
+    color: #0057b8;
+}

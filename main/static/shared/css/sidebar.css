@@ -55,14 +55,13 @@
 .nav-item.active > .nav-link {
     background: #F9FFF8;
     color: #009141;
-    font-weight: 600;
+    font-weight: 300;
 }
 
-.nav-item.active .nav-icon {
-    filter: brightness(0) saturate(100%)
-        invert(41%) sepia(88%) saturate(548%)
-        hue-rotate(96deg) brightness(93%) contrast(88%);
+.nav-item.active .nav-link .nav-icon {
+    filter: none !important;
 }
+
 
 .has-submenu {
     position: relative;
@@ -85,6 +84,11 @@
     display: none;
     padding-left: 45px;
     margin-top: 4px;
+    list-style: none;
+}
+
+.submenu li {
+    list-style: none;
 }
 
 .submenu.open {

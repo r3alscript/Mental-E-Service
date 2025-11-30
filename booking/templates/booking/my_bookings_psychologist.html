@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Мої бронювання — Психолог</title>
+
+    <link rel="icon" type="image/png" href="{% static 'auth/media/logo.png' %}">
+    <link rel="stylesheet" href="{% static 'shared/css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'shared/css/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'shared/css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'shared/css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'booking/css/booking_styles.css' %}">
+</head>
+
+<body>
+{% include "shared/header.html" %}
+<div class="layout">
+{% include "shared/sidebar.html" %}
+
+<main class="page-content">
+
+    <div class="page-block">
+
+        <h1 class="content-title">Мої бронювання</h1>
+
+        <h2 class="section-title">Запити на бронювання</h2>
+
+        {% if pending %}
+        <div class="bookings-list">
+            {% for b in pending %}
+            <div class="booking-card">
+
+                <div class="booking-info">
+                    <div class="info-row">
+                        <strong>Від:</strong> {{ b.client.first_name }} {{ b.client.last_name }}
+                    </div>
+                    <div class="info-row">
+                        <strong>Дата:</strong> {{ b.date|date:"d.m.Y" }}
+                        &nbsp; <strong>Час:</strong> {{ b.time|time:"H:i" }}
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="approve-btn" onclick="approve({{ b.id }})">Прийняти</button>
+                    <button class="reject-btn" onclick="reject({{ b.id }})">Відхилити</button>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="empty-text">
+            У вас поки немає запитів на бронювання.<br>
+            Дочекайтеся, поки клієнт створить запит.
+        </p>
+        {% endif %}
+
+        {% if approved %}
+        <h2 class="section-title">Заплановані записи</h2>
+
+        <div class="bookings-list">
+            {% for b in approved %}
+            <div class="booking-card">
+                <div class="booking-info booking-inline">
+                    <div><strong>Клієнт:</strong> {{ b.client.first_name }} {{ b.client.last_name }}</div>
+                    <div><strong>Дата:</strong> {{ b.date|date:"d.m.Y" }}</div>
+                    <div><strong>Час:</strong> {{ b.time|time:"H:i" }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    </div>
+
+</main>
+</div>
+
+<script>
+function approve(id) {
+    fetch(`/booking/approve/${id}/`)
+        .then(r => r.json())
+        .then(() => location.reload());
+}
+
+function reject(id) {
+    fetch(`/booking/reject/${id}/`)
+        .then(r => r.json())
+        .then(() => location.reload());
+}
+</script>
+
+</body>
+</html>

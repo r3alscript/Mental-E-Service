@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-
     const personalBlock = document.getElementById("personalBlock");
     const personalEditBtn = document.querySelector(".personal-edit-btn");
 
@@ -23,7 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const deleteBtn = document.getElementById("deleteAccountBtn");
-
     if (deleteBtn) {
         deleteBtn.addEventListener("click", (e) => {
             e.preventDefault();
@@ -66,6 +64,16 @@ document.addEventListener("DOMContentLoaded", () => {
                     else alert(d.error || "Помилка завантаження");
                 });
         });
+    }
+
+    const workAlert = document.getElementById("workTimeAlert");
+    if (workspaceBlock && workAlert) {
+        const wt = workspaceBlock.querySelector('[data-field="work_time"]');
+        if (wt && wt.innerText.trim() !== "") {
+            workAlert.style.display = "none";
+        } else {
+            workAlert.style.display = "block";
+        }
     }
 });
 
@@ -215,6 +223,9 @@ function initEditableBlock(block, button, selector, updateUrl, isPersonal) {
 
                 const oldWrap = block.querySelector(".worktime-wrapper");
                 if (oldWrap) oldWrap.replaceWith(span);
+
+                const workAlert = document.getElementById("workTimeAlert");
+                if (workAlert) workAlert.style.display = "none";
             }
 
             button.innerHTML = `
@@ -245,6 +256,7 @@ function openPasswordModal() {
 function closePasswordModal() {
     document.getElementById("passwordModal").style.display = "none";
 }
+
 async function submitPasswordChange() {
     const oldPassword = document.getElementById("oldPassword").value.trim();
     const newPassword = document.getElementById("newPassword").value.trim();
@@ -277,7 +289,6 @@ async function submitPasswordChange() {
     closePasswordModal();
 }
 
-
 function getCSRFToken() {
     const name = "csrftoken=";
     const cookies = decodeURIComponent(document.cookie).split(";");
@@ -296,4 +307,3 @@ function openDeleteModal() {
 function closeDeleteModal() {
     document.getElementById("deleteModal").style.display = "none";
 }
-

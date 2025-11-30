@@ -19,5 +19,4 @@ urlpatterns = [
     path("update_personal/", update_personal_ajax, name="update_personal"),
     path("update_workspace/", update_workspace_ajax, name="update_workspace"),
     path("upload_avatar/", upload_avatar_ajax, name="upload_avatar"),
-
 ]

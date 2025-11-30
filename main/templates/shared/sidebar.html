@@ -5,53 +5,81 @@
 
   <ul class="nav-menu">
 
-    <li class="nav-item">
+    <li class="nav-item" data-url="{% url 'profile_router' %}">
         <a href="{% url 'profile_router' %}" class="nav-link">
-            <img src="{% static 'shared/media/personal-collection.svg' %}" class="nav-icon" alt="">
+            <img 
+                src="{% static 'shared/media/personal-collection.svg' %}" 
+                data-active-icon="{% static 'shared/media/personal-collection-green.svg' %}"
+                class="nav-icon"
+            >
             Мій профіль
         </a>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item" data-url="/records/">
         <a href="#" class="nav-link has-submenu">
-            <img src="{% static 'shared/media/notebook.svg' %}" class="nav-icon" alt="">
+            <img 
+                src="{% static 'shared/media/notebook.svg' %}" 
+                data-active-icon="{% static 'shared/media/notebook-green.svg' %}"
+                class="nav-icon"
+            >
             Мої записи
         </a>
 
         <ul class="submenu">
             <li>
-                <a href="#" class="nav-link">
-                    <img src="{% static 'shared/media/history.svg' %}" class="nav-icon" alt="">
+                <a href="{% url 'booking_history' %}" class="nav-link">
+                    <img 
+                        src="{% static 'shared/media/history.svg' %}" 
+                        data-active-icon="{% static 'shared/media/history-green.svg' %}"
+                        class="nav-icon"
+                    >
                     Історія записів
                 </a>
             </li>
 
             <li>
-                <a href="/booking/booking/" class="nav-link">
-                    <img src="{% static 'shared/media/notebook-and-pen.svg' %}" class="nav-icon" alt="">
+                <a href="{% url 'booking_router' %}" class="nav-link">
+                    <img 
+                        src="{% static 'shared/media/notebook-and-pen.svg' %}" 
+                        data-active-icon="{% static 'shared/media/notebook-and-pen-green.svg' %}"
+                        class="nav-icon"
+                    >
                     Бронювання
                 </a>
             </li>
         </ul>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item" data-url="/chats/">
         <a href="#" class="nav-link">
-            <img src="{% static 'shared/media/message.svg' %}" class="nav-icon" alt="">
+            <img 
+                src="{% static 'shared/media/message.svg' %}" 
+                data-active-icon="{% static 'shared/media/message-green.svg' %}"
+                class="nav-icon"
+            >
             Чати
         </a>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item" data-url="{% url 'psychologists_list' %}">
         <a href="{% url 'psychologists_list' %}" class="nav-link">
-            <img src="{% static 'shared/media/id-card-h.svg' %}" class="nav-icon" alt="">
+            <img 
+                src="{% static 'shared/media/id-card-h.svg' %}" 
+                data-active-icon="{% static 'shared/media/id-card-h-green.svg' %}"
+                class="nav-icon"
+            >
             Психологи
         </a>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item" data-url="/hotlines/">
         <a href="#" class="nav-link">
-            <img src="{% static 'shared/media/phone-telephone.svg' %}" class="nav-icon" alt="">
+            <img 
+                src="{% static 'shared/media/phone-telephone.svg' %}" 
+                data-active-icon="{% static 'shared/media/phone-telephone-green.svg' %}"
+                class="nav-icon"
+            >
             Гарячі лінії
         </a>
     </li>
@@ -67,17 +95,4 @@
 
 </nav>
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const navItems = document.querySelectorAll(".nav-item");
-
-    navItems.forEach(item => {
-        item.addEventListener("click", function (e) {
-            if (e.target.closest(".submenu")) return;
-            navItems.forEach(i => i.classList.remove("active"));
-
-            this.classList.add("active");
-        });
-    });
-});
-</script>
+<script src="{% static 'shared/js/sidebar.js' %}"></script>

@@ -11,13 +11,20 @@
     <link rel="stylesheet" href="{% static 'shared/css/sidebar.css' %}">
     <link rel="stylesheet" href="{% static 'shared/css/footer.css' %}">
     <link rel="stylesheet" href="{% static 'shared/css/layout.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{% static 'psychologists/css/psychologists_list.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body>
 
 {% include "shared/header.html" %}
+
+{% if show_alert %}
+<div class="alert-box alert-error">
+    Щоб інші користувачі могли бачити вас у списку психологів, заповніть ваш робочий графік у профілі.
+</div>
+{% endif %}
 
 <div class="layout">
 
@@ -31,190 +38,9 @@
                 <h1 class="content-title">Психологи</h1>
             </div>
 
-            <div class="psychologists-grid">
+            <div id="psychologistsGrid" class="psychologists-grid"></div>
 
-                <div class="psychologist-card">
-                    <div class="psychologist-main">
-
-                        <div class="psychologist-photo">
-                            <img src="{% static 'booking/img/psychologists/oleg_sidorenko.png' %}" class="psychologist-avatar">
-                        </div>
-
-                        <div class="psychologist-details">
-
-                            <div class="info-row first-row">
-                                <h3 class="psychologist-name">Олег Сидоренко</h3>
-
-                                <div class="rating-section">
-                                    <img src="{% static 'psychologists/media/smiling-face.svg' %}" class="icon-sm" alt="">
-                                    <span class="rating-value">4.9 / 5.0</span>
-                                </div>
-                            </div>
-
-                            <div class="info-row second-row">
-                                <div class="experience">
-                                    <span>15 років стажу</span>
-                                </div>
-
-                                <div class="cancellation-badge">
-                                    <img src="{% static 'psychologists/media/history.svg' %}" class="icon-sm" alt="">
-                                    <span>Скасування за 24 години</span>
-                                </div>
-                            </div>
-
-                            <div class="info-row third-row">
-                                <div class="price-section">
-                                    <img src="{% static 'psychologists/media/funds.svg' %}" class="icon-sm" alt="">
-                                    <span class="price">2000 ₴</span>
-                                </div>
-
-                                <div class="languages">
-                                    <img src="{% static 'psychologists/media/group.svg' %}" class="icon-sm" alt="">
-                                    <span>Українська, Англійська</span>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="psychologist-card">
-                    <div class="psychologist-main">
-
-                        <div class="psychologist-photo">
-                            <img src="{% static 'booking/img/psychologists/andrii_sirko.png' %}" class="psychologist-avatar">
-                        </div>
-
-                        <div class="psychologist-details">
-
-                            <div class="info-row first-row">
-                                <h3 class="psychologist-name">Андрій Сірко</h3>
-                                <div class="rating-section">
-                                    <img src="{% static 'psychologists/media/smiling-face.svg' %}" class="icon-sm" alt="">
-                                    <span class="rating-value">4.5 / 5.0</span>
-                                </div>
-                            </div>
-
-                            <div class="info-row second-row">
-                                <div class="experience">
-                                    <span>10 років стажу</span>
-                                </div>
-
-                                <div class="cancellation-badge">
-                                    <img src="{% static 'psychologists/media/history.svg' %}" class="icon-sm" alt="">
-                                    <span>Скасування за 24 години</span>
-                                </div>
-                            </div>
-
-                            <div class="info-row third-row">
-                                <div class="price-section">
-                                    <img src="{% static 'psychologists/media/funds.svg' %}" class="icon-sm" alt="">
-                                    <span class="price">2000 ₴</span>
-                                </div>
-
-                                <div class="languages">
-                                    <img src="{% static 'psychologists/media/group.svg' %}" class="icon-sm" alt="">
-                                    <span>Українська, Англійська</span>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="psychologist-card">
-                    <div class="psychologist-main">
-
-                        <div class="psychologist-photo">
-                            <img src="{% static 'booking/img/psychologists/inna_mitskevich.png' %}" class="psychologist-avatar">
-                        </div>
-
-                        <div class="psychologist-details">
-
-                            <div class="info-row first-row">
-                                <h3 class="psychologist-name">Інна Міцкевич</h3>
-                                <div class="rating-section">
-                                    <img src="{% static 'psychologists/media/smiling-face.svg' %}" class="icon-sm" alt="">
-                                    <span class="rating-value">4.0 / 5.0</span>
-                                </div>
-                            </div>
-
-                            <div class="info-row second-row">
-                                <div class="experience">
-                                    <span>5 років стажу</span>
-                                </div>
-
-                                <div class="cancellation-badge">
-                                    <img src="{% static 'psychologists/media/history.svg' %}" class="icon-sm" alt="">
-                                    <span>Скасування за 24 години</span>
-                                </div>
-                            </div>
-
-                            <div class="info-row third-row">
-                                <div class="price-section">
-                                    <img src="{% static 'psychologists/media/funds.svg' %}" class="icon-sm" alt="">
-                                    <span class="price">1900 ₴</span>
-                                </div>
-
-                                <div class="languages">
-                                    <img src="{% static 'psychologists/media/group.svg' %}" class="icon-sm" alt="">
-                                    <span>Українська, Англійська</span>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="psychologist-card">
-                    <div class="psychologist-main">
-
-                        <div class="psychologist-photo">
-                            <img src="{% static 'booking/img/psychologists/pavlo_sidorenko.png' %}" class="psychologist-avatar">
-                        </div>
-
-                        <div class="psychologist-details">
-
-                            <div class="info-row first-row">
-                                <h3 class="psychologist-name">Павло Сидоренко</h3>
-                                <div class="rating-section">
-                                    <img src="{% static 'psychologists/media/smiling-face.svg' %}" class="icon-sm" alt="">
-                                    <span class="rating-value">4.7 / 5.0</span>
-                                </div>
-                            </div>
-
-                            <div class="info-row second-row">
-                                <div class="experience">
-                                    <span>1 рік стажу</span>
-                                </div>
-
-                                <div class="cancellation-badge">
-                                    <img src="{% static 'psychologists/media/history.svg' %}" class="icon-sm" alt="">
-                                    <span>Скасування за 24 години</span>
-                                </div>
-                            </div>
-
-                            <div class="info-row third-row">
-                                <div class="price-section">
-                                    <img src="{% static 'psychologists/media/funds.svg' %}" class="icon-sm" alt="">
-                                    <span class="price">1600 ₴</span>
-                                </div>
-
-                                <div class="languages">
-                                    <img src="{% static 'psychologists/media/group.svg' %}" class="icon-sm" alt="">
-                                    <span>Українська</span>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
+            <div id="pagination" class="pagination"></div>
 
         </div>
 
@@ -222,7 +48,32 @@
 
 </div>
 
+
 {% include "shared/footer.html" %}
+
+<div id="bookingModal" class="booking-modal">
+    <div class="booking-modal-content">
+        <h3 class="booking-modal-title">Бронювання запису</h3>
+
+        <label class="modal-label">Оберіть дату</label>
+        <input type="date" id="bookingDate" class="modal-input" autocomplete="off">
+
+        <label class="modal-label">Оберіть час</label>
+        <div id="timeSlots" class="time-slots disabled"></div>
+
+        <div class="modal-actions">
+            <button id="confirmBooking" class="modal-confirm">Підтвердити</button>
+            <button id="closeBooking" class="modal-cancel">Скасувати</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const psychologists = {{ psychologists_json|safe }};
+</script>
+
+<script src="{% static 'psychologists/js/psychologists.js' %}"></script>
 
 </body>
 </html>

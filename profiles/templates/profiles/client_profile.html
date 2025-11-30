@@ -40,13 +40,17 @@
 
                 <div class="personal-grid">
 
-                    <div class="personal-photo">
+                   <div class="personal-photo">
                         <img 
                             id="avatarPreview"
-                            src="{% if user.avatar %}{{ user.avatar.url }}{% else %}{% static 'profiles/media/default_avatar.png' %}{% endif %}"
                             class="personal-avatar"
+                            src="{% if user.avatar and 'default_avatar' not in user.avatar.name %}
+                                    {{ user.avatar.url }}
+                                 {% else %}
+                                    /media/avatars/default_avatar.png
+                                 {% endif %}"
+                            onerror="this.onerror=null; this.src='/media/avatars/default_avatar.png';"
                         >
-
                         <input type="file" id="avatarInput" accept="image/*" hidden>
                     </div>
 

@@ -1,0 +1,97 @@
+{% load static %}
+{% load tz %}
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Мої бронювання — E-Psycholog</title>
+
+    <link rel="icon" type="image/png" href="{% static 'auth/media/logo.png' %}">
+    <link rel="stylesheet" href="{% static 'shared/css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'shared/css/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'shared/css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'shared/css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'booking/css/booking_styles.css' %}">
+</head>
+
+<body>
+
+{% include "shared/header.html" %}
+
+<div class="layout">
+
+    {% include "shared/sidebar.html" %}
+
+    <main class="page-content">
+
+        <div class="page-block">
+            <div class="page-controls">
+                <h1 class="content-title">Мої бронювання</h1>
+            </div>
+
+            <div class="bookings-list">
+                {% for b in bookings %}
+                <div class="booking-card">
+
+                    <div class="booking-info">
+
+                        <div class="info-row">
+                            <strong>Психолог:</strong>
+                            {{ b.psychologist.user.first_name }} {{ b.psychologist.user.last_name }}
+                        </div>
+
+                        <div class="info-row">
+                            <strong>Дата:</strong> {{ b.date|date:"d.m.Y" }}
+                            &nbsp; <strong>Час:</strong> {{ b.time|time:"H:i" }}
+                        </div>
+
+                        <div class="info-row">
+                            <strong>Статус:</strong>
+
+                            {% if b.status == "pending" %}
+                                <span class="badge pending">Очікує підтвердження</span>
+
+                            {% elif b.status == "approved" %}
+                                <span class="badge approved">Підтверджено</span>
+
+                            {% elif b.status == "rejected" %}
+                                <span class="badge rejected">Відхилено психологом</span>
+
+                            {% elif b.status == "canceled" %}
+                                <span class="badge canceled">Скасовано вами</span>
+
+                            {% endif %}
+                        </div>
+
+                    </div>
+
+                    {% if b.status == "pending" %}
+                    <button class="cancel-btn" onclick="cancelBooking({{ b.id }})">Скасувати</button>
+                    {% endif %}
+
+                </div>
+                {% empty %}
+                <p class="empty-text">
+                    У вас ще немає бронювань. Оберіть психолога та надішліть запит на консультацію.
+                </p>
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </main>
+</div>
+
+{% include "shared/footer.html" %}
+
+<script>
+function cancelBooking(id) {
+    fetch(`/booking/cancel/${id}/`)
+        .then(r => r.json())
+        .then(() => location.reload());
+}
+</script>
+
+</body>
+</html>
