@@ -24,7 +24,7 @@
     border: 1px solid #e0e0e0;
     border-radius: 10px;
     background: white;
-    font-size: 16px;
+    font-size: 14px;
     min-width: 180px;
     font-weight: 500;
   }
@@ -75,6 +75,7 @@
 
   .psychologist-details {
     flex: 1;
+    font-family: "Montserrat", sans-serif !important;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -83,6 +84,7 @@
   }
 
   .info-row {
+    font-family: "Montserrat", sans-serif !important;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -135,6 +137,7 @@
   }
 
   .experience {
+    font-family: "Montserrat", sans-serif !important;
     font-size: 14px;
     color: #000000;
     font-weight: 300;
@@ -142,6 +145,8 @@
 
   .cancellation-section {
     display: flex;
+    font-size: 14px;
+    font-family: "Montserrat", sans-serif !important;
     justify-content: flex-end;
   }
 

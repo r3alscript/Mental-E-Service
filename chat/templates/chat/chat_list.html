@@ -1,0 +1,88 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Мої чати — E-Psycholog</title>
+
+    <link rel="stylesheet" href="{% static 'shared/css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'shared/css/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'shared/css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'shared/css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'chat/css/chat_list.css' %}">
+</head>
+
+<body>
+
+{% include "shared/header.html" %}
+
+<div class="layout">
+
+    {% include "shared/sidebar.html" %}
+
+    <main class="page-content">
+        <h1 class="page-title">Мої чати</h1>
+
+        {% if has_dialogs %}
+            <div class="dialogs-list">
+
+                {% for item in dialogs %}
+                <a href="{% url 'chat:dialog' item.dialog.id %}" class="dialog-item" data-id="{{ item.dialog.id }}">
+
+                    <div class="dialog-avatar">
+                        <img src="
+                            {% if item.other_user.avatar and 'default_avatar' not in item.other_user.avatar.name %}
+                                {{ item.other_user.avatar.url }}
+                            {% else %}
+                                /media/avatars/default_avatar.png
+                            {% endif %}
+                        ">
+                    </div>
+
+                    <div class="dialog-info">
+                        <div class="dialog-name-time">
+                            <div class="dialog-name">
+                                {{ item.other_user.first_name }} {{ item.other_user.last_name }}
+                            </div>
+
+                            <div class="dialog-time">
+                                {% if item.last_msg %}
+                                    {{ item.last_msg.created_at|date:"d.m H:i" }}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="dialog-last">
+                            {% if item.last_msg %}
+                                {{ item.last_msg.text|truncatechars:40 }}
+                            {% else %}
+                                (порожній діалог)
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if item.unread_count > 0 %}
+                        <span class="dialog-unread-dot"></span>
+                    {% endif %}
+
+                </a>
+                {% endfor %}
+
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <p class="empty-text">У вас поки немає чатів</p>
+            </div>
+        {% endif %}
+
+    </main>
+
+</div>
+
+{% include "shared/footer.html" %}
+
+<script src="{% static 'chat/js/chat_list.js' %}"></script>
+
+</body>
+</html>

@@ -28,7 +28,7 @@ class User(AbstractUser):
     birth_date = models.DateField(null=True, blank=True)
     document_type = models.CharField(max_length=50, blank=True)
     document_number = models.CharField(max_length=15, blank=True)
-    avatar = models.ImageField(upload_to=avatar_upload_path, default="profiles/media/default_avatar.png")
+    avatar = models.ImageField(upload_to=avatar_upload_path, default="avatars/default_avatar.png")
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']

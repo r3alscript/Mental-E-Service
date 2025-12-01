@@ -11,7 +11,7 @@ def select_role(request):
 
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect("/")
+        return redirect("/profile_router")
 
     if request.method == "POST":
         phone = request.POST.get("username", "").strip()
@@ -34,7 +34,6 @@ def login_view(request):
             messages.error(request, "Невірний номер телефону або пароль.")
 
     return render(request, "auth/login.html")
-
 
 def logout_view(request):
     logout(request)

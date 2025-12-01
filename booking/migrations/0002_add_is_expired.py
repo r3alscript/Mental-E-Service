@@ -1,4 +1,4 @@
-from django.db import migrations, models
+from django.db import migrations
 
 class Migration(migrations.Migration):
 
@@ -7,9 +7,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='booking',
-            name='is_expired',
-            field=models.BooleanField(default=False),
-        ),
+
     ]
+

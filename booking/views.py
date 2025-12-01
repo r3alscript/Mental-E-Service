@@ -10,7 +10,6 @@ from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 
 User = get_user_model()
-
 @login_required
 def psychologists_list_api(request):
     psychologists = Psychologist.objects.select_related("user").exclude(work_time="")
@@ -20,9 +19,11 @@ def psychologists_list_api(request):
         user = psycho.user
 
         if user.avatar and user.avatar.name:
-            avatar_url = user.avatar.url
+            avatar_url = request.build_absolute_uri(user.avatar.url)
         else:
-            avatar_url = settings.MEDIA_URL + "avatars/default_avatar.png"
+            avatar_url = request.build_absolute_uri(
+                settings.MEDIA_URL + "avatars/default_avatar.png"
+            )
 
         result.append({
             "id": psycho.id,

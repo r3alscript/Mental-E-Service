@@ -1,0 +1,78 @@
+.page-title {
+    font-size: 32px;
+    font-weight: 300;
+    margin-bottom: 25px;
+    font-family: "Montserrat", sans-serif !important;
+}
+
+.dialogs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.dialog-item {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    background: #fff;
+    padding: 15px 10px;
+    border-radius: 12px;
+    border: 1px solid #009141;
+    text-decoration: none;
+    color: #111;
+    font-family: "Montserrat", sans-serif !important;
+    position: relative;
+    transition: 0.2s;
+}
+
+.dialog-item:hover {
+    background: #f5fff5;
+    border-color: #d2ffd2;
+}
+
+.dialog-avatar img {
+    width: 55px;
+    height: 55px;
+    border-radius: 70%;
+    object-fit: cover;
+}
+
+.dialog-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.dialog-name-time {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dialog-name {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.dialog-time {
+    font-size: 14px;
+    color: #666;
+}
+
+.dialog-last {
+    font-size: 15px;
+    color: #666;
+    margin-top: 3px;
+}
+
+.dialog-unread-dot {
+    width: 12px;
+    height: 12px;
+    background-color: #27c94d;
+    border-radius: 50%;
+    position: absolute;
+    right: 20px;
+    top: 70%;
+    transform: translateY(-50%);
+}

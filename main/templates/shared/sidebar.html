@@ -7,44 +7,28 @@
 
     <li class="nav-item" data-url="{% url 'profile_router' %}">
         <a href="{% url 'profile_router' %}" class="nav-link">
-            <img 
-                src="{% static 'shared/media/personal-collection.svg' %}" 
-                data-active-icon="{% static 'shared/media/personal-collection-green.svg' %}"
-                class="nav-icon"
-            >
+            <img src="{% static 'shared/media/personal-collection.svg' %}" data-active-icon="{% static 'shared/media/personal-collection-green.svg' %}" class="nav-icon">
             Мій профіль
         </a>
     </li>
 
     <li class="nav-item" data-url="/records/">
         <a href="#" class="nav-link has-submenu">
-            <img 
-                src="{% static 'shared/media/notebook.svg' %}" 
-                data-active-icon="{% static 'shared/media/notebook-green.svg' %}"
-                class="nav-icon"
-            >
+            <img src="{% static 'shared/media/notebook.svg' %}" data-active-icon="{% static 'shared/media/notebook-green.svg' %}" class="nav-icon">
             Мої записи
         </a>
 
         <ul class="submenu">
             <li>
                 <a href="{% url 'booking_history' %}" class="nav-link">
-                    <img 
-                        src="{% static 'shared/media/history.svg' %}" 
-                        data-active-icon="{% static 'shared/media/history-green.svg' %}"
-                        class="nav-icon"
-                    >
+                    <img src="{% static 'shared/media/history.svg' %}" data-active-icon="{% static 'shared/media/history-green.svg' %}" class="nav-icon">
                     Історія записів
                 </a>
             </li>
 
             <li>
                 <a href="{% url 'booking_router' %}" class="nav-link">
-                    <img 
-                        src="{% static 'shared/media/notebook-and-pen.svg' %}" 
-                        data-active-icon="{% static 'shared/media/notebook-and-pen-green.svg' %}"
-                        class="nav-icon"
-                    >
+                    <img src="{% static 'shared/media/notebook-and-pen.svg' %}" data-active-icon="{% static 'shared/media/notebook-and-pen-green.svg' %}" class="nav-icon">
                     Бронювання
                 </a>
             </li>
@@ -52,34 +36,23 @@
     </li>
 
     <li class="nav-item" data-url="/chats/">
-        <a href="#" class="nav-link">
-            <img 
-                src="{% static 'shared/media/message.svg' %}" 
-                data-active-icon="{% static 'shared/media/message-green.svg' %}"
-                class="nav-icon"
-            >
+        <a href="{% url 'chat:list' %}" class="nav-link">
+            <img src="{% static 'shared/media/message.svg' %}" data-active-icon="{% static 'shared/media/message-green.svg' %}" class="nav-icon">
             Чати
+            <span id="chat-unread-dot" class="unread-dot" style="display:none;"></span>
         </a>
     </li>
 
     <li class="nav-item" data-url="{% url 'psychologists_list' %}">
         <a href="{% url 'psychologists_list' %}" class="nav-link">
-            <img 
-                src="{% static 'shared/media/id-card-h.svg' %}" 
-                data-active-icon="{% static 'shared/media/id-card-h-green.svg' %}"
-                class="nav-icon"
-            >
+            <img src="{% static 'shared/media/id-card-h.svg' %}" data-active-icon="{% static 'shared/media/id-card-h-green.svg' %}" class="nav-icon">
             Психологи
         </a>
     </li>
 
     <li class="nav-item" data-url="/hotlines/">
         <a href="#" class="nav-link">
-            <img 
-                src="{% static 'shared/media/phone-telephone.svg' %}" 
-                data-active-icon="{% static 'shared/media/phone-telephone-green.svg' %}"
-                class="nav-icon"
-            >
+            <img src="{% static 'shared/media/phone-telephone.svg' %}" data-active-icon="{% static 'shared/media/phone-telephone-green.svg' %}" class="nav-icon">
             Гарячі лінії
         </a>
     </li>

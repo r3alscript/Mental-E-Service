@@ -31,28 +31,24 @@ function renderPsychologists() {
                             </div>
                         </div>
 
-                       <div class="info-row second-row">
+                        <div class="info-row second-row">
+                            <div class="experience" style="color:#009141; font-weight:300;">
+                                ${p.experience} років стажу
+                            </div>
 
-    <div class="experience" style="color:#009141; font-weight:300;">
-        ${p.experience} років стажу
-    </div>
-
-    <div class="cancellation">
-        <i class="fa-solid fa-clock-rotate-left info-icon"></i>
-        ${
-            p.cancel_policy === "24_hours"
-                ? "Скасування за 24 години"
-                : p.cancel_policy === "12_hours"
-                ? "Скасування за 12 годин"
-                : "Скасування за 6 годин"
-        }
-    </div>
-
-</div>
-
+                            <div class="cancellation">
+                                <i class="fa-solid fa-clock-rotate-left info-icon"></i>
+                                ${
+                                    p.cancel_policy === "24_hours"
+                                        ? "Скасування за 24 години"
+                                        : p.cancel_policy === "12_hours"
+                                        ? "Скасування за 12 годин"
+                                        : "Скасування за 6 годин"
+                                }
+                            </div>
+                        </div>
 
                         <div class="info-row third-row">
-
                             <div class="price-section">
                                 <img src="/static/psychologists/media/funds.svg" class="info-icon">
                                 <span class="price">${p.price} ₴</span>
@@ -68,7 +64,10 @@ function renderPsychologists() {
                             <button class="action-btn-card book-btn" onclick="openBookingModal(${p.id})">
                                 Забронювати
                             </button>
-                            <button class="action-btn-card message-btn">Написати</button>
+
+                            <button class="action-btn-card message-btn" onclick="startChat(${p.id})">
+                                Написати
+                            </button>
                         </div>
 
                     </div>
@@ -246,4 +245,7 @@ document.getElementById("confirmBooking").onclick = () => {
     });
 };
 
+function startChat(psychologistId) {
+    window.location.href = `/chat/start/${psychologistId}/`;
+}
 

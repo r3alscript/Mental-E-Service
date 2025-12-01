@@ -2,8 +2,8 @@
     background: white;
     box-shadow: 0 0 45px rgba(15, 185, 0, 0.15);
     position: sticky;
-    height: 50px !important;
-    top: 0;
+    height: 55px !important;
+    margin-top: -5px;
     z-index: 100;
 }
 

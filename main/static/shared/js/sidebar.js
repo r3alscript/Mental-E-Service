@@ -26,9 +26,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
         submenuParent.addEventListener('click', function (e) {
             e.preventDefault();
-
             parentItem.classList.toggle('open');
             submenu.classList.toggle('open');
         });
     }
+
+    const protocol = location.protocol === "https:" ? "wss" : "ws";
+    const socket = new WebSocket(protocol + "://" + location.host + "/ws/chat/sidebar/");
+
+    socket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+        if (data.type !== "chat_sidebar_update") return;
+
+        const dot = document.getElementById("chat-unread-dot");
+        if (!dot) return;
+
+        if (data.has_unread) {
+            dot.style.display = "inline-block";
+        } else {
+            dot.style.display = "none";
+        }
+    };
 });

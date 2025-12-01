@@ -131,3 +131,13 @@
         invert(27%) sepia(86%) saturate(2800%)
         hue-rotate(358deg) brightness(91%) contrast(92%);
 }
+
+.unread-dot {
+    width: 10px;
+    height: 10px;
+    background: #009141;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 128px;
+}
+

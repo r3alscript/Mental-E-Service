@@ -1,0 +1,89 @@
+{% load static %}
+{% load ukrainian_date %}
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Чат — E-Psycholog</title>
+
+    <link rel="stylesheet" href="{% static 'shared/css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'shared/css/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'chat/css/chat.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'auth/media/logo.png' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+{% include "shared/header.html" %}
+{% include "shared/sidebar.html" %}
+
+<main class="page-content">
+
+<div class="chat-wrapper">
+
+    <div class="chat-header-top">
+        <a href="/chat/" class="chat-back">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+
+        <img src="{{ other_avatar }}" class="chat-top-avatar">
+        <div class="chat-top-name">{{ other.first_name }} {{ other.last_name }}</div>
+    </div>
+
+    <div id="messages" class="chat-messages">
+
+        {% for m in messages %}
+            {% ifchanged m.created_at.date %}
+                <div class="date-wrapper">
+                    <div class="message-date">{{ m.created_at|ua_date }}</div>
+                </div>
+            {% endifchanged %}
+
+            {% if m.sender_id == my_user.id %}
+                <div class="message-row me">
+                    <div class="message-bubble">
+                        {{ m.text }}
+                        <div class="message-time">{{ m.created_at|date:"H:i" }}</div>
+                    </div>
+                    <img src="{{ my_avatar }}" class="msg-avatar">
+                </div>
+            {% else %}
+                <div class="message-row them">
+                    <img src="{{ other_avatar }}" class="msg-avatar">
+                    <div class="message-bubble">
+                        {{ m.text }}
+                        <div class="message-time">{{ m.created_at|date:"H:i" }}</div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+
+    </div>
+
+    <div class="chat-input-block">
+        <textarea id="messageInput" placeholder="Напишіть повідомлення..." rows="1"></textarea>
+
+        <button id="sendBtn" class="chat-send-btn">
+            <i class="fa-solid fa-paper-plane"></i>
+        </button>
+    </div>
+
+</div>
+
+</main>
+
+<script>
+    window.CHAT_DIALOG_ID = "{{ dialog.id }}";
+    window.CURRENT_USER_ID = "{{ request.user.id }}";
+    window.MY_AVATAR = "{{ my_avatar }}";
+    window.OTHER_AVATAR = "{{ other_avatar }}";
+</script>
+
+<script src="{% static 'chat/js/dialog.js' %}"></script>
+
+</body>
+</html>
