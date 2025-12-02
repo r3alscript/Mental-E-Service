@@ -87,9 +87,17 @@ function normalizeWorkspaceField(field, value) {
             "За 12 годин": "12_hours",
             "За 6 годин": "6_hours"
         };
-        return map[value] || "";
+        return map[value] || value;
     }
     return value;
+}
+
+
+function safeGetValue(field) {
+    let v = field.innerText?.trim() || "";
+    if (!v) v = field.textContent?.trim() || "";
+    if (!v) v = field.dataset.original || "";
+    return v;
 }
 
 
@@ -103,7 +111,7 @@ function initEditableBlock(block, button, selector, updateUrl, isPersonal) {
         if (!editMode) {
             fields.forEach(field => {
                 const fieldName = field.dataset.field;
-                const value = field.innerText.trim();
+                let value = safeGetValue(field);
                 let input;
 
                 if (fieldName === "work_time") {
@@ -156,8 +164,10 @@ function initEditableBlock(block, button, selector, updateUrl, isPersonal) {
                     return;
                 }
 
-                if (fieldName === "about") input = document.createElement("textarea");
-                else if (fieldName === "birth_date") {
+                if (fieldName === "about") {
+                    input = document.createElement("textarea");
+                    input.value = value;
+                } else if (fieldName === "birth_date") {
                     input = document.createElement("input");
                     input.type = "date";
                     const parsed = new Date(value);
@@ -198,13 +208,11 @@ function initEditableBlock(block, button, selector, updateUrl, isPersonal) {
                     return;
                 }
 
-                const newElement = fieldName === "about"
-                    ? document.createElement("p")
-                    : document.createElement("span");
-
+                const newElement = document.createElement("span");
                 newElement.classList.add("value", selector.replace(".", ""));
                 newElement.dataset.field = fieldName;
                 newElement.innerText = input.value;
+                newElement.dataset.original = input.value; // ← ключовий фікс
 
                 updatedData[fieldName] = isPersonal
                     ? input.value
@@ -219,6 +227,7 @@ function initEditableBlock(block, button, selector, updateUrl, isPersonal) {
                 const span = document.createElement("span");
                 span.classList.add("value", selector.replace(".", ""));
                 span.dataset.field = "work_time";
+                span.dataset.original = `${workStart}-${workEnd}`;
                 span.innerText = `${workStart}-${workEnd}`;
 
                 const oldWrap = block.querySelector(".worktime-wrapper");

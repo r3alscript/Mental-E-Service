@@ -53,9 +53,5 @@ ul li {
 
 a {
     color: #0a8250;
-    font-weight: 500;
-}
-
-a:hover {
-    text-decoration: underline;
+    font-weight: 300;
 }
