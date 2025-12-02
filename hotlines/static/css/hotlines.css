@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+.page-content {
+    padding: 40px 50px;     
+    font-family: "Montserrat", sans-serif;
+    width: 100%;            
+    box-sizing: border-box; 
+}
+
+.hotline-section {
+    margin-bottom: 60px;
+    max-width: 900px;
+}
+
+.hotline-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #0a8250;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.hotline-phone {
+    font-size: 17px;
+    margin-bottom: 25px;
+}
+
+.hotline-flex {
+    display: flex;
+    gap: 40px;
+    line-height: 1.7;
+}
+
+.left, .right {
+    flex: 1;
+    font-size: 15px;
+}
+
+.subtitle {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 5px;
+}
+
+ul li {
+    margin: 6px 0;
+}
+
+a {
+    color: #0a8250;
+    font-weight: 500;
+}
+
+a:hover {
+    text-decoration: underline;
+}

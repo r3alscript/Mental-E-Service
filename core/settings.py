@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'booking',
     'chat',
     'channels',
+    'hotlines',
     'profiles.apps.ProfilesConfig',
     'django.contrib.admin',
     'django.contrib.auth',

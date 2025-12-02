@@ -10,4 +10,5 @@ urlpatterns = [
     path('booking/', include('booking.urls')),
     path('profile/', include('profiles.urls')),
     path('chat/', include('chat.urls')),
+    path("hotlines/", include('hotlines.urls'), name="hotlines")
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

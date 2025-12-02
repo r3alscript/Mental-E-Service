@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Гарячі лінії</title>
+
+    <link rel="stylesheet" href="{% static 'shared/css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'shared/css/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'shared/css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'shared/css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/hotlines.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'auth/media/logo.png' %}">
+</head>
+
+<body>
+
+{% include "shared/header.html" %}
+
+<div class="layout">
+
+    {% include "shared/sidebar.html" %}
+
+    <main class="page-content">
+
+        <div class="hotline-section">
+
+            <h2 class="hotline-title">
+                Національна гаряча лінія з попередження домашнього насильства,
+                торгівлі людьми та гендерної дискримінації
+            </h2>
+
+            <div class="hotline-phone">
+                0 800 500 335 (з мобільного або стаціонарного телефону) або 116 123 (з мобільного)
+            </div>
+
+            <div class="hotline-flex">
+                <div class="left">
+                    <div class="subtitle">Консультації можна також отримати онлайн:</div>
+                    <ul>
+                        <li>Skype: <a>@lastrada-ukraine</a></li>
+                        <li>Facebook: <a>@lastradaukraine</a></li>
+                        <li>Telegram: <a>@NHL116123</a></li>
+                        <li>Email: <a href="mailto:hotline@la-strada.gov.ua">hotline@la-strada.gov.ua</a></li>
+                    </ul>
+                </div>
+
+                <div class="right">
+                    Громадська міжнародна правозахисна організація Ла Страда-Україна
+                    надає безкоштовну, цілодобову та анонімну допомогу тим, хто піддається
+                    фізичному, психологічному, сексуальному чи економічному насильству.
+                </div>
+            </div>
+
+        </div>
+
+        <div class="hotline-section">
+            <h2 class="hotline-title">Національна гаряча лінія для дітей та молоді</h2>
+
+            <div class="hotline-phone">
+                0 800 500 225 (з мобільного або стаціонарного телефону) або 116 111 (з мобільного)
+            </div>
+
+            <div class="hotline-flex">
+                <div class="left">
+                    <div class="subtitle">Консультації можна також отримати онлайн:</div>
+                    <ul>
+                        <li>Instagram: <a>@childhotline_ua</a></li>
+                        <li>Facebook: <a>@childhotline.ukraine</a></li>
+                        <li>Telegram: <a>@CHL116111</a></li>
+                    </ul>
+                </div>
+
+                <div class="right">
+                    Звернувшись на цю лінію, діти та молодь можуть анонімно отримати
+                    підтримку і поради щодо проблем в особистих стосунках, булінгу,
+                    непорозумінь з батьками, насильства чи жорстокого поводження.
+                    Наразі лінія працює у будні з 12:00 до 20:00.
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+{% include "shared/footer.html" %}
+</body>
+</html>
