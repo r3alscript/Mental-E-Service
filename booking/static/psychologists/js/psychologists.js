@@ -32,7 +32,7 @@ function renderPsychologists() {
                         </div>
 
                         <div class="info-row second-row">
-                            <div class="experience" style="color:#009141; font-weight:300;">
+                            <div class="experience" style="color:#009141; font-weight:300; font-size: 14px;">
                                 ${p.experience} років стажу
                             </div>
 
@@ -219,29 +219,31 @@ dateInput.addEventListener("change", () => {
         });
 });
 
-document.getElementById("confirmBooking").onclick = () => {
-    if (!selectedTime || !dateInput.value) return;
+confirmBooking.onclick = () => {
+    if (!selectedPsyID || !selectedTime || !bookingDate.value) return;
 
     const formData = new FormData();
-    formData.append("date", dateInput.value);
+    formData.append("date", bookingDate.value);
     formData.append("time", selectedTime);
 
     fetch(`/booking/create/${selectedPsyID}/`, {
         method: "POST",
-        headers: { "X-CSRFToken": window.csrftoken },
-        body: formData
+        body: formData,
+        headers: { "X-CSRFToken": getCookie("csrftoken") }
     })
-    .then(async r => {
-        const responseText = await r.text();
-        if (!r.ok) {
-            alert("Помилка: " + responseText);
+    .then(r => r.json())
+    .then(data => {
+        if (data.message === "exists") {
+            showFloatingAlert("Цей час уже зайнятий!", "error");
             return;
         }
-        modal.classList.remove("open");
-        alert("Ваш запит надіслано!");
+        if (data.message === "ok") {
+            showFloatingAlert("Ваш запит надіслано!", "success");
+            modal.classList.remove("open");
+        }
     })
     .catch(() => {
-        alert("Сталася помилка з'єднання");
+        showFloatingAlert("Помилка з'єднання!", "error");
     });
 };
 
@@ -249,3 +251,19 @@ function startChat(psychologistId) {
     window.location.href = `/chat/start/${psychologistId}/`;
 }
 
+function showFloatingAlert(text, type) {
+    const box = document.createElement("div");
+    box.className = `floating-alert floating-${type}`;
+    box.textContent = text;
+
+    document.body.appendChild(box);
+
+    setTimeout(() => {
+        box.classList.add("show");
+    }, 50);
+
+    setTimeout(() => {
+        box.classList.remove("show");
+        setTimeout(() => box.remove(), 300);
+    }, 3000);
+}

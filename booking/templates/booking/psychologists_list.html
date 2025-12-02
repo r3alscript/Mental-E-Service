@@ -20,6 +20,16 @@
 
 {% include "shared/header.html" %}
 
+<div class="floating-messages">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="floating-alert floating-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
 {% if show_alert %}
 <div class="alert-box alert-error">
     Щоб інші користувачі могли бачити вас у списку психологів, заповніть ваш робочий графік у профілі.

@@ -8,6 +8,7 @@ from django.conf import settings
 from datetime import datetime, timedelta
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError
+from django.contrib import messages
 
 User = get_user_model()
 @login_required
@@ -92,30 +93,27 @@ def create_booking(request, psychologist_id):
     try:
         date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
         time_obj = datetime.strptime(time_str, "%H:%M").time()
-    except Exception as e:
-        return JsonResponse({"error": f"Invalid date/time format: {e}"}, status=400)
+    except Exception:
+        return JsonResponse({"error": "Invalid date/time format"}, status=400)
 
-    psycho = get_object_or_404(Psychologist, id=psychologist_id)
-    psychologist = psycho
+    psychologist = get_object_or_404(Psychologist, id=psychologist_id)
 
     if Booking.objects.filter(
-        psychologist = psycho,
+        psychologist=psychologist,
         date=date_obj,
         time=time_obj
     ).exists():
         return JsonResponse({"message": "exists"})
 
-    try:
-        booking = Booking.objects.create(
-            client=request.user,
-            psychologist=psychologist,
-            date=date_obj,
-            time=time_obj,
-            status="pending"
-        )
-        return JsonResponse({"message": "ok", "id": booking.id})
-    except Exception as e:
-        return JsonResponse({"error": f"DB error: {e}"}, status=500)
+    Booking.objects.create(
+        client=request.user,
+        psychologist=psychologist,
+        date=date_obj,
+        time=time_obj,
+        status="pending"
+    )
+
+    return JsonResponse({"message": "ok"})
 
 @login_required
 def get_available_times(request, psychologist_id):

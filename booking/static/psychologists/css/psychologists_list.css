@@ -175,7 +175,7 @@
   .price {
     font-family: "Montserrat", sans-serif !important;
     font-size: 16px;
-    font-weight: 300;
+    font-weight: 400;
     color: #000000;
   }
 
@@ -188,7 +188,7 @@
     font-family: "Montserrat", sans-serif !important;
     font-size: 14px;
     color: #000000;
-    font-weight: 300;
+    font-weight: 400;
   }
 
   @media (max-width: 1200px) {
@@ -463,4 +463,48 @@
     font-size: 24px;
     font-weight: 300;
     margin-bottom: 20px;
+}
+
+.floating-messages {
+    position: fixed;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    width: auto;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.floating-alert {
+    padding: 14px 22px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    animation: slideDown 0.4s ease-out, fadeOut 0.4s ease-in 3.5s forwards;
+    opacity: 1;
+}
+
+.floating-success {
+    background: #e8ffe8;
+    border-left: 5px solid #1fae4a;
+    color: #0f7e31;
+}
+
+.floating-error {
+    background: #ffe8e8;
+    border-left: 5px solid #d60000;
+    color: #a30000;
+}
+
+@keyframes slideDown {
+    from { transform: translate(-50%, -20px); opacity: 0; }
+    to   { transform: translate(-50%, 0); opacity: 1; }
+}
+
+@keyframes fadeOut {
+    to { opacity: 0; transform: translate(-50%, -20px); }
 }
